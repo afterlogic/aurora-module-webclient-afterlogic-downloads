@@ -1,0 +1,132 @@
+<div class="screen ContactsLayout" style="display: none;">
+	<div class="panels" data-bind="splitterFlex: {name: 'downloads_list', sizes: [60, 40]}">
+		<div class="panel" data-splitter="downloads_list">
+			<div class="panel_content">
+				<div class="toolbar">
+					<span class="content">
+						<span class="item checkstate command" data-bind="click: requestDownloadsList, checkstate: {'activeClass': 'process', 'state': preLoadingList(), 'duration': 800}">
+							<span class="icon"></span>
+						</span>
+						<span class="item delete" data-bind="command: deleteCommand, customTooltip: 'COREWEBCLIENT/ACTION_DELETE'">
+							<span class="icon"></span>
+							<span class="text" data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_DELETE'}"></span>
+						</span>
+					</span>
+				</div>
+				<div class="middle_bar">
+					<div class="panel_top">
+						<label class="custom_checkbox" data-bind="css: {'checked': checkAll, 'incomplete': checkAllIncomplite}">
+							<span class="icon"></span>
+							<input type="checkbox" data-bind="checked: checkAll" />
+						</label>
+						<span class="search_block">
+							<span class="input" data-bind="css: {'focus': isSearchFocused}">
+								<span class="icon search" data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_SEARCH'}, click: searchSubmitCommand"></span>
+								<input class="field" type="text" data-bind="valueUpdate: 'afterkeydown', value: searchInput, onEnter: searchSubmitCommand, hasfocus: isSearchFocused" />
+							</span>
+						</span>
+					</div>
+					<div class="panel_center unselectable" data-bind="customScrollbar: {'scrollToTopTrigger': listChanged, x: false}">
+						<div class="contact_list_scroll scroll-inner">
+							<div class="items_list contact_list">
+								<div data-bind="visible: isEmptyList() && !preLoadingList()">
+									<span class="list_notification" data-bind="visible: !isSearch()">
+										<span class="description" data-bind="i18n: {'key': '%MODULENAME%/INFO_NO_ITEMS'}"></span>
+										<!--<span class="description" data-bind="text: infoCreateOrImport, visible: isPersonalStorageSelected"></span>-->
+										<!--<span class="description" data-bind="i18n: {'key': '%MODULENAME%/INFO_DRAGNDROP_TO_GROUP'}, visible: visibleDragNDropToGroupText"></span>-->
+									</span>
+									<span class="list_notification" data-bind="visible: isSearch()">
+										<span class="link" data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_CLEAR_SEARCH'}, click: onClearSearchClick"></span>
+										<span class="description" data-bind="i18n: {'key': '%MODULENAME%/INFO_NO_ITEMS_FOUND'}"></span>
+									</span>
+								</div>
+
+								<span class="list_notification" data-bind="visible: isEmptyList() && preLoadingList()" id="selenium_contacts_loading_info">
+									<span class="description" data-bind="i18n: {'key': '%MODULENAME%/INFO_LOADING_LIST'}"></span>
+								</span>
+
+								<span class="list_notification" data-bind="visible: isSearch() && !isEmptyList()">
+									<span class="link" data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_CLEAR_SEARCH'}, click: onClearSearchClick"></span>
+									<span class="description" data-bind="text: searchText"></span>
+								</span>
+
+								<div class="items_sub_list contact_sub_list" data-bind="foreach: downloadsList">
+									<div class="item" data-bind="css: {'checked': checked, 'selected': selected, 'deleted': deleted}">
+										<div class="item_content">
+											<span class="controls">
+												<span class="custom_checkbox" data-bind="click: function () { checked(!checked()); }, css: {'checked': checked()}">
+													<span class="icon"></span>
+												</span>
+											</span>
+											<span class="data table fadeout">
+												<span style="width: 30%" class="" data-bind="text: sProductName + ' (' + sPackageName + ')'"></span>
+												<span style="width: 50px" class="fixed" data-bind="text: sProductVersion"></span>
+												<span style="width: 20%" class="" data-bind="text: sEmail"></span>
+												<span style="width: 380px" class="fixed" data-bind="text: sLicenseKey"></span>
+												<span style="width: 110px" class="fixed" data-bind="text: sDate"></span>
+											</span>
+											<div class="separator"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel_bottom unselectable" data-bind="visible: oPageSwitcher.pages().length > 0, template: {name: oPageSwitcher.ViewTemplate, data: oPageSwitcher}"></div>
+				</div>
+			</div>
+		</div>
+		<div class="panel" data-splitter="download_viewer">
+			<div class="panel_content">
+				<div class="middle_bar" data-bind="with: selectedItem">
+					<div class="fields">
+						<div class="row">
+							<span class="label">Product name</span>
+							<span class="value input" data-bind="text: sProductName"></span>
+						</div>
+						<div class="row">
+							<span class="label">Product version</span>
+							<span class="value input" data-bind="text: sProductVersion"></span>
+						</div>
+						<div class="row">
+							<span class="label">Commercial product</span>
+							<span class="value input" data-bind="text: bProductCommercial"></span>
+						</div>
+						<div class="row" data-bind="visible: bProductCommercial">
+							<span class="label">License key</span>
+							<span class="value input" data-bind="text: sLicenseKey"></span>
+						</div>
+						<div class="row">
+							<span class="label">UUID</span>
+							<span class="value input" data-bind="text: UUID"></span>
+						</div>
+						<div class="row">
+							<span class="label">Package name</span>
+							<span class="value input" data-bind="text: sPackageName"></span>
+						</div>
+						<div class="row">
+							<span class="label">External product id</span>
+							<span class="value input" data-bind="text: iExternalProductId"></span>
+						</div>
+						<div class="row">
+							<span class="label">Download date</span>
+							<span class="value input" data-bind="text: sDate"></span>
+						</div>
+						<div class="row">
+							<span class="label">Email</span>
+							<span class="value input" data-bind="text: sEmail"></span>
+						</div>
+						<div class="row">
+							<span class="label">Referer</span>
+							<span class="value input" data-bind="text: sReferer"></span>
+						</div>
+						<div class="row">
+							<span class="label">Ip</span>
+							<span class="value input" data-bind="text: sIp"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
