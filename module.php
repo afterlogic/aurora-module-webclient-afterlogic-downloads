@@ -2,14 +2,19 @@
 
 namespace Aurora\Modules;
 
+use \Aurora\Modules\Enums;
+
 class AfterlogicDownloadsWebclientModule extends \Aurora\System\AbstractModule
 {
 	public $oApiDownloadsManager = null;
 	
 	public function init() 
 	{
-		$this->incClass('enum');
-		$this->incClass('donwloadItem');
+		$this->incClasses(array(
+				'enum',
+				'donwloadItem'
+			)
+		);
 		
 		$this->oApiDownloadsManager = $this->GetManager();
 		
@@ -130,9 +135,9 @@ class AfterlogicDownloadsWebclientModule extends \Aurora\System\AbstractModule
 		
 		$oUser = \Aurora\System\Api::getAuthenticatedUser();
 		
-		$iAuthMode = $this->getConfig('AuthMode', EIframeAppAuthMode::NoAuthentication);
+		$iAuthMode = $this->getConfig('AuthMode', \EIframeAppAuthMode::NoAuthentication);
 				
-		if (($iAuthMode === EIframeAppAuthMode::CustomCredentialsSetByUser || $iAuthMode === EIframeAppAuthMode::CustomCredentialsSetByAdmin)
+		if (($iAuthMode === \EIframeAppAuthMode::CustomCredentialsSetByUser || $iAuthMode === \EIframeAppAuthMode::CustomCredentialsSetByAdmin)
 				&& !empty($oUser) && $oUser->Role === \EUserRole::NormalUser)
 		{
 			return array(
@@ -206,7 +211,7 @@ class AfterlogicDownloadsWebclientModule extends \Aurora\System\AbstractModule
 		return false;
 	}
 	
-	public function GetItems($Offset = 0, $Limit = 20, $SortField = EDownloadsSortField::Date, $SortOrder = ESortOrder::DESC, $Search = '', $Filters = array())
+	public function GetItems($Offset = 0, $Limit = 20, $SortField = Enums\DownloadsSortField::Date, $SortOrder = \ESortOrder::DESC, $Search = '', $Filters = array())
 	{
 		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
 

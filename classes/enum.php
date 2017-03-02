@@ -17,11 +17,13 @@
  * 
  */
 
+namespace Aurora\Modules\Enums;
+
 /**
  * @package Api
  * @subpackage Enum
  */
-class EDownloadsSortField extends AEnumeration
+class DownloadsSortField extends \AEnumeration
 {
 	const Date = 1;
 	const ProductId = 2;

@@ -18,6 +18,8 @@
  * @package Modules
  */
 
+use Aurora\Modules\Enums;
+
 /**
  * CApiContactsManager class summary
  * 
@@ -96,7 +98,7 @@ class CApiAfterlogicDownloadsWebclientManager extends \Aurora\System\AbstractMan
 	 * 
 	 * @return array|bool
 	 */
-	public function getDownloads($iSortField = \EDownloadsSortField::Date, $iSortOrder = \ESortOrder::ASC,
+	public function getDownloads($iSortField = Enums\DownloadsSortField::Date, $iSortOrder = \ESortOrder::ASC,
 		$iOffset = 0, $iRequestLimit = 20, $aFilters = [], $aIds = [])
 	{
 		return $this->oEavManager->getEntities(
@@ -105,7 +107,7 @@ class CApiAfterlogicDownloadsWebclientManager extends \Aurora\System\AbstractMan
 			$iOffset,
 			$iRequestLimit,
 			$aFilters,
-			$iSortField === EDownloadsSortField::Date ? 'Date' : 'iObjectId',
+			$iSortField === Enums\DownloadsSortField::Date ? 'Date' : 'iObjectId',
 			$iSortOrder
 //			$aIds
 		);

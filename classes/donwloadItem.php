@@ -27,34 +27,23 @@
  */
 class CDownloadItem extends \CEntity
 {
-	/**
-	 * 
-	 * @param string $sModule
-	 */
-	public function __construct($sModule)
-	{
-		parent::__construct(get_class($this), $sModule);
+	protected $aStaticMap = array(
+		'Date'				=> array('string', ''),
+		'Email'				=> array('string', ''),
+		'Referer'			=> array('string', ''),
+		'Ip'				=> array('string', ''),
+		'ProductId'			=> array('int', 0),
+		'ExternalProductId'	=> array('int', 0),
+		'ProductName'		=> array('string', ''),
+		'ProductVersion'	=> array('string', ''),
+		'LicenseKey'		=> array('string', ''),
+		'ProductCommercial'	=> array('bool', true),
+		'PackageId'			=> array('int', 0),
+		'PackageName'		=> array('string', '')
 
-		$this->__USE_TRIM_IN_STRINGS__ = true;
-
-		$this->setStaticMap(array(
-			'Date'				=> array('string', ''),
-			'Email'				=> array('string', ''),
-			'Referer'			=> array('string', ''),
-			'Ip'				=> array('string', ''),
-			'ProductId'			=> array('int', 0),
-			'ExternalProductId'	=> array('int', 0),
-			'ProductName'		=> array('string', ''),
-			'ProductVersion'	=> array('string', ''),
-			'LicenseKey'		=> array('string', ''),
-			'ProductCommercial'	=> array('bool', true),
-			'PackageId'			=> array('int', 0),
-			'PackageName'		=> array('string', '')
-			
 //			'PrimaryEmail'		=> array('int', EContactsPrimaryEmail::Personal),
-		));
-	}
-
+	);	
+	
 	/**
 	 * @param string $sKey
 	 * @param mixed $mValue
