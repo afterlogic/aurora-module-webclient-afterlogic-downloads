@@ -211,7 +211,7 @@ class AfterlogicDownloadsWebclientModule extends \Aurora\System\AbstractModule
 		return false;
 	}
 	
-	public function GetItems($Offset = 0, $Limit = 20, $SortField = Enums\DownloadsSortField::Date, $SortOrder = \ESortOrder::DESC, $Search = '', $Filters = array())
+	public function GetItems($Offset = 0, $Limit = 20, $SortField = Enums\DownloadsSortField::Date, $SortOrder = \ESortOrder::ASC, $Search = '', $Filters = array())
 	{
 		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
 
