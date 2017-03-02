@@ -302,7 +302,7 @@ class AfterlogicDownloadsWebclientModule extends \Aurora\System\AbstractModule
 //			}
 //		}
 		
-		$oDownloadItem = \CDownloadItem::createInstance();
+		$oDownloadItem = new \CDownloadItem($this->GetName());
 		$oDownloadItem->Populate($Data);
 
 		$mResult = $this->oApiDownloadsManager->createDownload($oDownloadItem);
