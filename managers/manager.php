@@ -36,7 +36,7 @@ class CApiAfterlogicDownloadsWebclientManager extends AApiManager
 
 		if ($oModule instanceof AApiModule)
 		{
-			$this->oEavManager = \CApi::GetSystemManager('eav', 'db');
+			$this->oEavManager = \Aurora\System\Api::GetSystemManager('eav', 'db');
 		}
 	}
 	

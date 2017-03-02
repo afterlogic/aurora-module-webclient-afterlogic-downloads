@@ -1,6 +1,8 @@
 <?php
 
-class AfterlogicDownloadsWebclientModule extends AApiModule
+namespace Aurora\Modules;
+
+class AfterlogicDownloadsWebclientModule extends \Aurora\System\AbstractModule
 {
 	public $oApiDownloadsManager = null;
 	
@@ -62,9 +64,9 @@ class AfterlogicDownloadsWebclientModule extends AApiModule
 	 */
 	public function GetSettings()
 	{
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
 		
-		$oUser = \CApi::getAuthenticatedUser();
+		$oUser = \Aurora\System\Api::getAuthenticatedUser();
 		if (!empty($oUser) && ($oUser->Role === \EUserRole::NormalUser && $this->isEnabledForEntity($oUser) || $oUser->Role === \EUserRole::SuperAdmin))
 		{
 			return array(
@@ -92,7 +94,7 @@ class AfterlogicDownloadsWebclientModule extends AApiModule
 //	{
 //		if (is_numeric($AuthMode) && is_numeric($TokenMode) && $Url)
 //		{
-//			\CApi::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
+//			\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
 //			
 //			$this->setConfig('AppName', $AppName);
 //			$this->setConfig('AuthMode', $AuthMode);
@@ -104,11 +106,11 @@ class AfterlogicDownloadsWebclientModule extends AApiModule
 //		
 //		if (!empty($Login) && !empty($Password))
 //		{
-//			\CApi::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
-//			$oUser = \CApi::getAuthenticatedUser();
+//			\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+//			$oUser = \Aurora\System\Api::getAuthenticatedUser();
 //			if ($oUser)
 //			{
-//				$oCoreDecorator = \CApi::GetModuleDecorator('Core');
+//				$oCoreDecorator = \Aurora\System\Api::GetModuleDecorator('Core');
 //				$oUser->{$this->GetName().'::Login'} = $Login;
 //				$oUser->{$this->GetName().'::Password'} = $Password;
 //				return $oCoreDecorator->UpdateUserObject($oUser);
@@ -124,9 +126,9 @@ class AfterlogicDownloadsWebclientModule extends AApiModule
 	 */
 	public function GetCredentials()
 	{
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
 		
-		$oUser = \CApi::getAuthenticatedUser();
+		$oUser = \Aurora\System\Api::getAuthenticatedUser();
 		
 		$iAuthMode = $this->getConfig('AuthMode', EIframeAppAuthMode::NoAuthentication);
 				
@@ -149,10 +151,10 @@ class AfterlogicDownloadsWebclientModule extends AApiModule
 	 */
 	public function GetPerUserSettings($UserId)
 	{
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
 		
 		$oUser = null;
-		$oCoreDecorator = \CApi::GetModuleDecorator('Core');
+		$oCoreDecorator = \Aurora\System\Api::GetModuleDecorator('Core');
 		if ($oCoreDecorator)
 		{
 			$oUser = $oCoreDecorator->GetUser($UserId);
@@ -178,10 +180,10 @@ class AfterlogicDownloadsWebclientModule extends AApiModule
 	 */
 	public function UpdatePerUserSettings($UserId, $EnableModule, $Login = '', $Password = '')
 	{
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
 		
 		$oUser = null;
-		$oCoreDecorator = \CApi::GetModuleDecorator('Core');
+		$oCoreDecorator = \Aurora\System\Api::GetModuleDecorator('Core');
 		if ($oCoreDecorator)
 		{
 			$oUser = $oCoreDecorator->GetUser($UserId);
@@ -206,7 +208,7 @@ class AfterlogicDownloadsWebclientModule extends AApiModule
 	
 	public function GetItems($Offset = 0, $Limit = 20, $SortField = EDownloadsSortField::Date, $SortOrder = ESortOrder::DESC, $Search = '', $Filters = array())
 	{
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
 
 		$aFilters = $this->prepareFilters($Filters);
 //		
@@ -273,22 +275,22 @@ class AfterlogicDownloadsWebclientModule extends AApiModule
 	 */
 	public function GetItem($UUID)
 	{
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
 		
 		return $this->oApiDownloadsManager->getDownload((string)$UUID);
 	}
 	
 	public function CreateDownload($Data)
 	{
-//		\CApi::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+//		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
 		
-//		$oUser = \CApi::getAuthenticatedUser();
+//		$oUser = \Aurora\System\Api::getAuthenticatedUser();
 		
 //		if ($iUserId > 0 && $iUserId !== $oUser->iId)
 //		{
-//			\CApi::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
+//			\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
 //			
-//			$oCoreDecorator = \CApi::GetModuleDecorator('Core');
+//			$oCoreDecorator = \Aurora\System\Api::GetModuleDecorator('Core');
 //			if ($oCoreDecorator)
 //			{
 //				$oUser = $oCoreDecorator->GetUser($iUserId);
@@ -304,7 +306,7 @@ class AfterlogicDownloadsWebclientModule extends AApiModule
 	
 	public function DeleteItems($Ids)
 	{
-		\CApi::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
 		
 		file_put_contents("f:\web\domains\project8.dev\data\logs\log-2017-02-02.txt", json_encode($Ids));
 		
