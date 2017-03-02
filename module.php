@@ -269,7 +269,7 @@ class AfterlogicDownloadsWebclientModule extends \Aurora\System\AbstractModule
 
 		return array(
 			'ItemsCount' => $iCount,
-			'List' => \CApiResponseManager::GetResponseObject($aList)
+			'List' => \Aurora\System\ResponseManager::GetResponseObject($aList)
 		);
 	}
 	
