@@ -25,7 +25,7 @@
  * @package Contactsmain
  * @subpackage Classes
  */
-class CDownloadItem extends AEntity
+class CDownloadItem extends \CEntity
 {
 	/**
 	 * 
