@@ -54,16 +54,6 @@ class CDownloadItem extends \CEntity
 //			'PrimaryEmail'		=> array('int', EContactsPrimaryEmail::Personal),
 		));
 	}
-	
-	/**
-	 * Creates instance of CDownload
-	 * @param string $sModule Module name
-	 * @return \CDownload
-	 */
-	public static function createInstance($sModule = 'AfterlogicDownloadsWebclient')
-	{
-		return new CDownloadItem($sModule);
-	}
 
 	/**
 	 * @param string $sKey

@@ -23,18 +23,18 @@
  * 
  * @package ContactsMain
  */
-class CApiAfterlogicDownloadsWebclientManager extends AApiManager
+class CApiAfterlogicDownloadsWebclientManager extends \Aurora\System\AbstractManager
 {
 	private $oEavManager = null;
 
 	/**
 	 * @param CApiGlobalManager &$oManager
 	 */
-	public function __construct(CApiGlobalManager &$oManager, $sForcedStorage = 'db', AApiModule $oModule = null)
+	public function __construct(\Aurora\System\GlobalManager &$oManager, $sForcedStorage = 'db', \Aurora\System\AbstractModule $oModule = null)
 	{
 		parent::__construct('', $oManager, $oModule);
 
-		if ($oModule instanceof AApiModule)
+		if ($oModule instanceof \Aurora\System\AbstractModule)
 		{
 			$this->oEavManager = \Aurora\System\Api::GetSystemManager('eav', 'db');
 		}
@@ -96,7 +96,7 @@ class CApiAfterlogicDownloadsWebclientManager extends AApiManager
 	 * 
 	 * @return array|bool
 	 */
-	public function getDownloads($iSortField = EDownloadsSortField::Date, $iSortOrder = ESortOrder::ASC,
+	public function getDownloads($iSortField = \EDownloadsSortField::Date, $iSortOrder = \ESortOrder::ASC,
 		$iOffset = 0, $iRequestLimit = 20, $aFilters = [], $aIds = [])
 	{
 		return $this->oEavManager->getEntities(
