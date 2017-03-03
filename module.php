@@ -4,7 +4,7 @@ namespace Aurora\Modules;
 
 use \Aurora\Modules\Enums;
 
-class AfterlogicDownloadsWebclientModule extends \Aurora\System\AbstractModule
+class AfterlogicDownloadsWebclientModule extends \Aurora\System\Module\AbstractModule
 {
 	public $oApiDownloadsManager = null;
 	
