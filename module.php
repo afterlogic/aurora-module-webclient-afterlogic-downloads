@@ -1,10 +1,10 @@
 <?php
 
-namespace Aurora\Modules;
+namespace Aurora\Modules\AfterlogicDownloadsWebclient;
 
 use \Aurora\Modules\Enums;
 
-class AfterlogicDownloadsWebclientModule extends \Aurora\System\Module\AbstractModule
+class Module extends \Aurora\System\Module\AbstractModule
 {
 	public $oApiDownloadsManager = null;
 	
