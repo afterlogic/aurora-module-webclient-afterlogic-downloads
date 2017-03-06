@@ -38,7 +38,7 @@ class CApiAfterlogicDownloadsWebclientManager extends \Aurora\System\AbstractMan
 
 		if ($oModule instanceof \Aurora\System\Module\AbstractModule)
 		{
-			$this->oEavManager = \Aurora\System\Api::GetSystemManager('eav', 'db');
+			$this->oEavManager = \Aurora\System\Api::GetSystemManager('Eav', 'db');
 		}
 	}
 	
