@@ -269,7 +269,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 
 		return array(
 			'ItemsCount' => $iCount,
-			'List' => \Aurora\System\ResponseManager::GetResponseObject($aList)
+			'List' => \Aurora\System\Managers\Response::GetResponseObject($aList)
 		);
 	}
 	

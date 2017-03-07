@@ -25,14 +25,14 @@ use Aurora\Modules\Enums;
  * 
  * @package ContactsMain
  */
-class CApiAfterlogicDownloadsWebclientManager extends \Aurora\System\AbstractManager
+class CApiAfterlogicDownloadsWebclientManager extends \Aurora\System\Managers\AbstractManager
 {
 	private $oEavManager = null;
 
 	/**
 	 * @param CApiGlobalManager &$oManager
 	 */
-	public function __construct(\Aurora\System\GlobalManager &$oManager, $sForcedStorage = 'db', \Aurora\System\Module\AbstractModule $oModule = null)
+	public function __construct(\Aurora\System\Managers\GlobalManager &$oManager, $sForcedStorage = 'db', \Aurora\System\Module\AbstractModule $oModule = null)
 	{
 		parent::__construct('', $oManager, $oModule);
 
