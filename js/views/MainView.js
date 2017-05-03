@@ -26,7 +26,8 @@ var
 	
 	CAbstractScreenView = require('%PathToCoreWebclientModule%/js/views/CAbstractScreenView.js'),
 	
-	Settings = require('modules/%ModuleName%/js/Settings.js')
+	Settings = require('modules/%ModuleName%/js/Settings.js'),
+	Chartist = require('modules/%ModuleName%/js/chartist.js')
 ;
 
 /**
@@ -34,6 +35,7 @@ var
  * 
  * @constructor
  */
+
 function CMainView()
 {
 	CAbstractScreenView.call(this, '%ModuleName%');
@@ -117,23 +119,32 @@ function CMainView()
 	});
 	
 	this.deleteCommand = Utils.createCommand(this, this.deleteItem, this.isCheckedOrSelected);
-	
-	
+
+	this.chartCont = ko.observable(null);
+
+	this.chartRange = ko.observable(1);
+
+	//this.changeRange = _.bind(this.changeRange, this);
+
 	App.broadcastEvent('%ModuleName%::ConstructView::after', {'Name': this.ViewConstructorName, 'View': this});
 }
 
 _.extendOwn(CMainView.prototype, CAbstractScreenView.prototype);
 
+
 CMainView.prototype.ViewTemplate = '%ModuleName%_MainView';
 CMainView.prototype.ViewConstructorName = 'CMainView';
+CMainView.prototype.onBind = function ()
+{
 
+};
 CMainView.prototype.onRoute = function (aParams)
 {
+
 	var 
 		oParams = LinksUtils.parseHash(aParams),
 		bNeedToRequestItems = false
 	;
-	
 	this.pageSwitcherLocked(true);
 	if (this.oPageSwitcher.perPage() !== Settings.ItemsPerPage)
 	{
@@ -198,7 +209,8 @@ CMainView.prototype.requestDownloadsList = function ()
 		'GetItems', 
 		{
 			'Offset': (this.currentPage() - 1) * Settings.ItemsPerPage,
-			'Limit': Settings.ItemsPerPage,
+			//'Limit': Settings.ItemsPerPage,
+			'Limit': 500,
 	//		'SortField': Enums.ContactSortField.Name,
 			'Search': this.search()
 	//		'GroupUUID': sGroupUUID,
@@ -240,7 +252,7 @@ CMainView.prototype.onGetDownloadsListResponse = function (oResponse)
 		}
 
 		this.downloadsList(aNewCollection);
-		
+		console.log(iItemsCount);
 		this.oPageSwitcher.setCount(iItemsCount);
 		this.downloadsCount(iItemsCount);
 
@@ -389,7 +401,6 @@ CMainView.prototype.onClearSearchClick = function ()
 };
 
 
-
 CMainView.prototype.onShow = function ()
 {
 	this.selector.useKeyboardKeys(true);
@@ -404,6 +415,18 @@ CMainView.prototype.onHide = function ()
 	this.oPageSwitcher.hide();
 };
 
+CMainView.prototype.changeRange = function ()
+{
+	console.log(arguments);
+
+	// var aDownloads = this.downloadsList;
+    //
+	// chart.update({
+	// 	labels: date,
+	// 	series: [downloadsCount]
+	// })
+};
+
 CMainView.prototype.onBind = function ()
 {
 	this.selector.initOnApplyBindings(
@@ -413,6 +436,35 @@ CMainView.prototype.onBind = function ()
 		$('.contact_list', this.$viewDom),
 		$('.contact_list_scroll.scroll-inner', this.$viewDom)
 	);
+
+	var chart = new Chartist.Line(this.chartCont()[0], null, {
+		fullWidth: true,
+		chartPadding: {
+			right: 40
+		}
+	});
+
+	this.downloadsList.subscribe(function (aDownloads) {
+		if(chart){
+
+			aDownloads.forEach(function (i) {
+				i.sDate = i.sDate.slice(0, i.sDate.indexOf(' '))
+			})
+			var date = [];
+			var downloadsCount = [];
+			var downloadsGroup = _.groupBy(aDownloads, "sDate");
+
+			for (var item in downloadsGroup){
+				date.push(item);
+				downloadsCount.push(downloadsGroup[item].length);
+			}
+
+			chart.update({
+				labels: date,
+				series: [downloadsCount]
+			})
+		}
+	});
 
 //	var self = this;
 //console.log(this.$viewDom);

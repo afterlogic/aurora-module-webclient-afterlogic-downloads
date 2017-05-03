@@ -1,4 +1,4 @@
-<div class="screen ContactsLayout" style="display: none;">
+<div class="screen DownloadsLayout" style="display: none;">
 	<div class="panels" data-bind="splitterFlex: {name: 'downloads_list', sizes: [60, 40]}">
 		<div class="panel" data-splitter="downloads_list">
 			<div class="panel_content">
@@ -25,6 +25,16 @@
 								<input class="field" type="text" data-bind="valueUpdate: 'afterkeydown', value: searchInput, onEnter: searchSubmitCommand, hasfocus: isSearchFocused" />
 							</span>
 						</span>
+
+						<div class="chart-ctrl">
+							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 3), css: { 'active' : chartRange == 3 }">year</button>
+							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 2), css: { 'active' : chartRange == 2 }">month</button>
+							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 1), css: { 'active' : chartRange == 1 }">week</button>
+						</div>
+
+						<div id="myPieChart" data-bind="initDom: chartCont">
+
+						</div>
 					</div>
 					<div class="panel_center unselectable" data-bind="customScrollbar: {'scrollToTopTrigger': listChanged, x: false}">
 						<div class="contact_list_scroll scroll-inner">
@@ -76,53 +86,54 @@
 				</div>
 			</div>
 		</div>
-		<div class="panel" data-splitter="download_viewer">
-			<div class="panel_content">
+		<div class="panel download_viewer" data-splitter="download_viewer">
+			<div class="panel_content ">
 				<div class="middle_bar" data-bind="with: selectedItem">
 					<div class="fields">
 						<div class="row">
-							<span class="label">Product name</span>
-							<span class="value input" data-bind="text: sProductName"></span>
+							<span class="label">Product name:</span>
+							<span class="value" data-bind="text: sProductName"></span>
 						</div>
 						<div class="row">
-							<span class="label">Product version</span>
-							<span class="value input" data-bind="text: sProductVersion"></span>
+							<span class="label">Product version:</span>
+							<span class="value" data-bind="text: sProductVersion"></span>
 						</div>
+
 						<div class="row">
-							<span class="label">Commercial product</span>
-							<span class="value input" data-bind="text: bProductCommercial"></span>
+							<span class="label">Commercial product:</span>
+							<span class="value" data-bind="text: bProductCommercial"></span>
 						</div>
 						<div class="row" data-bind="visible: bProductCommercial">
-							<span class="label">License key</span>
-							<span class="value input" data-bind="text: sLicenseKey"></span>
+							<span class="label">License key:</span>
+							<span class="value" data-bind="text: sLicenseKey"></span>
 						</div>
 						<div class="row">
-							<span class="label">UUID</span>
-							<span class="value input" data-bind="text: UUID"></span>
+							<span class="label">UUID:</span>
+							<span class="value" data-bind="text: UUID"></span>
 						</div>
 						<div class="row">
-							<span class="label">Package name</span>
-							<span class="value input" data-bind="text: sPackageName"></span>
+							<span class="label">Package name:</span>
+							<span class="value" data-bind="text: sPackageName"></span>
 						</div>
 						<div class="row">
-							<span class="label">External product id</span>
-							<span class="value input" data-bind="text: iExternalProductId"></span>
+							<span class="label">External product id:</span>
+							<span class="value" data-bind="text: iExternalProductId"></span>
 						</div>
 						<div class="row">
-							<span class="label">Download date</span>
-							<span class="value input" data-bind="text: sDate"></span>
+							<span class="label">Download date:</span>
+							<span class="value" data-bind="text: sDate"></span>
 						</div>
 						<div class="row">
-							<span class="label">Email</span>
-							<span class="value input" data-bind="text: sEmail"></span>
+							<span class="label">Email:</span>
+							<span class="value" data-bind="text: sEmail"></span>
 						</div>
 						<div class="row">
-							<span class="label">Referer</span>
-							<span class="value input" data-bind="text: sReferer"></span>
+							<span class="label">Referer:</span>
+							<span class="value" data-bind="text: sReferer"></span>
 						</div>
 						<div class="row">
-							<span class="label">Ip</span>
-							<span class="value input" data-bind="text: sIp"></span>
+							<span class="label">Ip:</span>
+							<span class="value" data-bind="text: sIp"></span>
 						</div>
 					</div>
 				</div>
