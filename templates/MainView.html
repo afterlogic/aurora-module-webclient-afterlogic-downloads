@@ -27,9 +27,9 @@
 						</span>
 
 						<div class="chart-ctrl">
-							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 3), css: { 'active' : chartRange == 3 }">year</button>
-							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 2), css: { 'active' : chartRange == 2 }">month</button>
-							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 1), css: { 'active' : chartRange == 1 }">week</button>
+							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 1), css: { 'active' : chartRange() == 1 }">week</button>
+							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 2), css: { 'active' : chartRange() == 2 }">month</button>
+							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 3), css: { 'active' : chartRange() == 3 }">year</button>
 						</div>
 
 						<div id="myPieChart" data-bind="initDom: chartCont">

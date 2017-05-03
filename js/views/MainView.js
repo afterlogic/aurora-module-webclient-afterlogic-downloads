@@ -415,9 +415,10 @@ CMainView.prototype.onHide = function ()
 	this.oPageSwitcher.hide();
 };
 
-CMainView.prototype.changeRange = function ()
+CMainView.prototype.changeRange = function (rangeType)
 {
-	console.log(arguments);
+	this.chartRange(rangeType);
+	console.log(this.chartRange());
 
 	// var aDownloads = this.downloadsList;
     //
