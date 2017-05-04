@@ -75,7 +75,7 @@ class CDownloadItem extends \Aurora\System\EAV\Entity
 		
 		if (isset($aData['Date']))
 		{
-			$this->Date = $aData['Date'];
+			$this->Date = date("Y-m-d H:i:s", $aData['Date']);
 		}
 		if (isset($aData['Email']))
 		{
