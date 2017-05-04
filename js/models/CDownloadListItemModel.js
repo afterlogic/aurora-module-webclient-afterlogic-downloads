@@ -46,7 +46,7 @@ CDownloadListItemModel.prototype.parse = function (oData)
 	this.id =  Types.pInt(oData['iObjectId']);
 	this.UUID =  Types.pString(oData['sUUID']);
 	
-	this.sDate =  moment.unix(oData.Date).format('YYYY-MM-DD HH:mm');
+	this.sDate =  moment(oData.Date).format('YYYY-MM-DD HH:mm');
 	this.sEmail = Types.pString(oData.Email);
 	this.sReferer = Types.pString(oData.Referer);
 	this.sIp = Types.pString(oData.Ip);

@@ -199,6 +199,8 @@ CMainView.prototype.onRoute = function (aParams)
 	{
 		this.requestDownloadsList();
 	}
+	
+	this.requestDownloadsCartData();
 };
 
 CMainView.prototype.requestDownloadsList = function ()
@@ -209,14 +211,32 @@ CMainView.prototype.requestDownloadsList = function ()
 		'GetItems', 
 		{
 			'Offset': (this.currentPage() - 1) * Settings.ItemsPerPage,
-			//'Limit': Settings.ItemsPerPage,
-			'Limit': 500,
+			'Limit': Settings.ItemsPerPage,
+//			'Limit': 500,
 	//		'SortField': Enums.ContactSortField.Name,
 			'Search': this.search()
 	//		'GroupUUID': sGroupUUID,
 	//		'Storage': sStorage
 		},
 		this.onGetDownloadsListResponse,
+		this
+	);
+};
+
+CMainView.prototype.requestDownloadsCartData = function ()
+{
+	this.loadingList(true);
+	Ajax.send(
+		Settings.ServerModuleName,
+		'GetItemsForChart', 
+		{
+			'Search': this.search()
+	//		'GroupUUID': sGroupUUID,
+		},
+//		this.onGetDownloadsListResponse,
+		function () {
+			console.log(arguments);
+		},
 		this
 	);
 };

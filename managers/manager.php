@@ -98,12 +98,12 @@ class CApiAfterlogicDownloadsWebclientManager extends \Aurora\System\Managers\Ab
 	 * 
 	 * @return array|bool
 	 */
-	public function getDownloads($iSortField = Enums\DownloadsSortField::Date, $iSortOrder = \ESortOrder::ASC,
+	public function getDownloads($aFields = array(), $iSortField = Enums\DownloadsSortField::Date, $iSortOrder = \ESortOrder::ASC,
 		$iOffset = 0, $iRequestLimit = 20, $aFilters = [], $aIds = [])
 	{
 		return $this->oEavManager->getEntities(
 			'CDownloadItem', 
-			array(),
+			$aFields,
 			$iOffset,
 			$iRequestLimit,
 			$aFilters,

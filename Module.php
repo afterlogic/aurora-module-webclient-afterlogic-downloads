@@ -16,13 +16,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 			)
 		);
 		
-		$this->oApiDownloadsManager = $this->GetManager();
-		
-		// $this->extendObject('CUser', array(
-				// 'Login' => array('string', ''),
-				// 'Password' => array('string', '')
-			// )
-		// );
+		$this->oApiDownloadsManager = $this->GetManager();	
 	}
 	
 	private function prepareFilters($aRawFilters)
@@ -246,30 +240,87 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 			$aFilters = ['$OR' => $aFilters];
 		}
 		
-//		$aFilters = [];
-//		$SortField = 'id';
-		
 		$iCount = $this->oApiDownloadsManager->getDownloadsCount($aFilters);
-		$aList = $this->oApiDownloadsManager->getDownloads($SortField, $SortOrder, $Offset, $Limit, $aFilters);
-		
-//		$aList = array(
-//			[
-//				'id' => 1,
-//				'date' => '01.02.2017'
-//			],
-//			[
-//				'id' => 2,
-//				'date' => '02.02.2017'
-//			],
-//			[
-//				'id' => 3,
-//				'date' => '03.02.2017'
-//			]
-//		);
+		$aList = $this->oApiDownloadsManager->getDownloads(array(), $SortField, $SortOrder, $Offset, $Limit, $aFilters);
 
 		return array(
 			'ItemsCount' => $iCount,
 			'List' => \Aurora\System\Managers\Response::GetResponseObject($aList)
+		);
+	}
+	
+	public function GetItemsForChart($Search = '', $FromDate = '', $TillDate = '')
+	{
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+
+//		$aFilters = $this->prepareFilters($Filters);
+		
+//		$FromDate = '2017-04-24';
+//		$TillDate = '2017-04-25';
+		
+		if ($sFromDate && $sTillDate)
+		{
+			$aFilters = [
+				'1@Date' => [
+					(string)$FromDate,
+					'>'
+				],
+				'2@Date' => [
+					(string)$TillDate,
+					'<'
+				]
+			];
+		}
+		
+		if (!empty($Search))
+		{
+			$aSearchFilters = [
+				'ProductName' => ['%'.$Search.'%', 'LIKE'],
+				'PackageName' => ['%'.$Search.'%', 'LIKE'],
+				'LicenseKey' => $Search,
+				'Email' => ['%'.$Search.'%', 'LIKE']
+			];
+			
+			
+			
+//			if (count($aFilters) > 0)
+			if ($sFromDate && $sTillDate)
+			{
+				$aFilters = [
+					'$AND' => [
+						'$AND' => $aFilters, 
+						'$OR' => $aSearchFilters
+					]
+				];
+			}
+			else
+			{
+				$aFilters = [
+					'$OR' => $aSearchFilters
+				];
+			}
+		}
+		elseif (count($aFilters) > 1)
+		{
+			$aFilters = ['$AND' => $aFilters];
+		}
+
+		$aFields = array('ProductName', 'Date');
+		$aList = $this->oApiDownloadsManager->getDownloads($aFields, Enums\DownloadsSortField::Date, \ESortOrder::DESC, 0, 1000, $aFilters);
+		
+		
+		$aSortedFields = array();
+		
+		foreach ($aList as $oItem)
+		{
+			$aSortedFields[] = array(
+				'Date' => $oItem->Date,
+				'ProductName' => $oItem->ProductName
+			);
+		}
+		
+		return array(
+			'List' => \Aurora\System\Managers\Response::GetResponseObject($aSortedFields)
 		);
 	}
 	

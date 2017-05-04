@@ -27,22 +27,24 @@
  */
 class CDownloadItem extends \Aurora\System\EAV\Entity
 {
-	protected $aStaticMap = array(
-		'Date'				=> array('string', ''),
-		'Email'				=> array('string', ''),
-		'Referer'			=> array('string', ''),
-		'Ip'				=> array('string', ''),
-		'ProductId'			=> array('int', 0),
-		'ExternalProductId'	=> array('int', 0),
-		'ProductName'		=> array('string', ''),
-		'ProductVersion'	=> array('string', ''),
-		'LicenseKey'		=> array('string', ''),
-		'ProductCommercial'	=> array('bool', true),
-		'PackageId'			=> array('int', 0),
-		'PackageName'		=> array('string', '')
-
-//			'PrimaryEmail'		=> array('int', EContactsPrimaryEmail::Personal),
-	);	
+	public function __construct($sModule)
+	{
+		$this->aStaticMap = array(
+			'Date'				=> array('datetime', date('Y-m-d H:i:s')),
+			'Email'				=> array('string', ''),
+			'Referer'			=> array('string', ''),
+			'Ip'				=> array('string', ''),
+			'ProductId'			=> array('int', 0),
+			'ExternalProductId'	=> array('int', 0),
+			'ProductName'		=> array('string', ''),
+			'ProductVersion'	=> array('string', ''),
+			'LicenseKey'		=> array('string', ''),
+			'ProductCommercial'	=> array('bool', true),
+			'PackageId'			=> array('int', 0),
+			'PackageName'		=> array('string', '')
+		);
+		parent::__construct($sModule);
+	}
 	
 	/**
 	 * @param string $sKey
@@ -71,11 +73,9 @@ class CDownloadItem extends \Aurora\System\EAV\Entity
 			$this->IdTenant = $oUser->IdTenant;
 		}
 		
-//		var_dump($aData);
-		
 		if (isset($aData['Date']))
 		{
-			$this->Date = (string)$aData['Date'];
+			$this->Date = $aData['Date'];
 		}
 		if (isset($aData['Email']))
 		{
