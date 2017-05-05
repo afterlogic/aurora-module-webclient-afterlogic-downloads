@@ -258,7 +258,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 //		$FromDate = '2017-04-24';
 //		$TillDate = '2017-04-25';
 		
-		if ($sFromDate && $sTillDate)
+		if ($FromDate && $TillDate)
 		{
 			$aFilters = [
 				'1@Date' => [
@@ -305,8 +305,10 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 			$aFilters = ['$AND' => $aFilters];
 		}
 
-		$aFields = array('ProductName', 'Date');
-		$aList = $this->oApiDownloadsManager->getDownloads($aFields, Enums\DownloadsSortField::Date, \ESortOrder::DESC, 0, 1000, $aFilters);
+		//$aFields = array('ProductName', 'Date');
+		$aFields = array('Date');
+
+		$aList = $this->oApiDownloadsManager->getDownloads($aFields, Enums\DownloadsSortField::Date, \ESortOrder::DESC, 0, 0, $aFilters);
 		
 		
 		$aSortedFields = array();
@@ -314,8 +316,8 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		foreach ($aList as $oItem)
 		{
 			$aSortedFields[] = array(
-				'Date' => $oItem->Date,
-				'ProductName' => $oItem->ProductName
+				'Date' => $oItem->Date
+				//'ProductName' => $oItem->ProductName
 			);
 		}
 		

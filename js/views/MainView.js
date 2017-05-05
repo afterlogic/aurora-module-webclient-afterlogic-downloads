@@ -122,7 +122,11 @@ function CMainView()
 
 	this.chartCont = ko.observable(null);
 
-	this.chartRange = ko.observable(1);
+	this.chartRange = ko.observable('month');
+
+	this.chartList = ko.observableArray([]);
+
+	this.oChart = null;
 
 	//this.changeRange = _.bind(this.changeRange, this);
 
@@ -199,8 +203,8 @@ CMainView.prototype.onRoute = function (aParams)
 	{
 		this.requestDownloadsList();
 	}
-	
-	this.requestDownloadsCartData();
+
+	this.requestDownloadsCartData('2017-04-20', '2017-04-25');
 };
 
 CMainView.prototype.requestDownloadsList = function ()
@@ -223,19 +227,23 @@ CMainView.prototype.requestDownloadsList = function ()
 	);
 };
 
-CMainView.prototype.requestDownloadsCartData = function ()
+CMainView.prototype.requestDownloadsCartData = function (fromDate, tilDate)
 {
-	this.loadingList(true);
 	Ajax.send(
 		Settings.ServerModuleName,
 		'GetItemsForChart', 
 		{
-			'Search': this.search()
+			'Search': this.search(),
+			'FromDate': fromDate,
+			'TillDate': tilDate
 	//		'GroupUUID': sGroupUUID,
 		},
 //		this.onGetDownloadsListResponse,
-		function () {
-			console.log(arguments);
+		function (oResponse) {
+			if(oResponse.Result)
+			{
+				this.chartList(oResponse.Result.List);
+			}
 		},
 		this
 	);
@@ -272,7 +280,6 @@ CMainView.prototype.onGetDownloadsListResponse = function (oResponse)
 		}
 
 		this.downloadsList(aNewCollection);
-		console.log(iItemsCount);
 		this.oPageSwitcher.setCount(iItemsCount);
 		this.downloadsCount(iItemsCount);
 
@@ -438,16 +445,32 @@ CMainView.prototype.onHide = function ()
 CMainView.prototype.changeRange = function (rangeType)
 {
 	this.chartRange(rangeType);
-	console.log(this.chartRange());
 
-	// var aDownloads = this.downloadsList;
-    //
-	// chart.update({
-	// 	labels: date,
-	// 	series: [downloadsCount]
-	// })
+	var setRange = function (dayCount) {
+		var date = new Date();
+		var result = new Date(date.getTime() - (86400000 * dayCount));
+		result = result.toISOString();
+		result = result.slice(0, result.indexOf('T'));
+		return result;
+	};
+
+	if(rangeType === 'day'){
+		this.requestDownloadsCartData(setRange(7), setRange(0));
+	}
+
+	if(rangeType === 'month'){
+		this.requestDownloadsCartData(setRange(30), setRange(0));
+	}
+
+	if(rangeType === 'year'){
+		this.requestDownloadsCartData(setRange(365), setRange(0));
+	}
 };
 
+CMainView.prototype.chartUpdate = function ()
+{
+	this.oChart.update();
+}
 CMainView.prototype.onBind = function ()
 {
 	this.selector.initOnApplyBindings(
@@ -458,33 +481,41 @@ CMainView.prototype.onBind = function ()
 		$('.contact_list_scroll.scroll-inner', this.$viewDom)
 	);
 
-	var chart = new Chartist.Line(this.chartCont()[0], null, {
+	this.oChart = new Chartist.Line(this.chartCont()[0], null, {
 		fullWidth: true,
 		chartPadding: {
 			right: 40
 		}
 	});
 
-	this.downloadsList.subscribe(function (aDownloads) {
-		if(chart){
+
+	this.chartList.subscribe(function (aDownloads) {
+		if(this.oChart){
+			var downloadsGroup,
+				date = [],
+				downloadsCount = [];
 
 			aDownloads.forEach(function (i) {
-				i.sDate = i.sDate.slice(0, i.sDate.indexOf(' '))
-			})
-			var date = [];
-			var downloadsCount = [];
-			var downloadsGroup = _.groupBy(aDownloads, "sDate");
+				i.Date = i.Date.slice(0, i.Date.indexOf(' '))
+			});
+
+			downloadsGroup = _.groupBy(aDownloads, "Date");
 
 			for (var item in downloadsGroup){
 				date.push(item);
 				downloadsCount.push(downloadsGroup[item].length);
 			}
 
-			chart.update({
+			this.oChart.update({
 				labels: date,
 				series: [downloadsCount]
 			})
 		}
+	}, this);
+
+
+	this.downloadsList.subscribe(function (aDownloads) {
+
 	});
 
 //	var self = this;

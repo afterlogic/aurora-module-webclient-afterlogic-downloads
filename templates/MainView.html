@@ -1,5 +1,5 @@
 <div class="screen DownloadsLayout" style="display: none;">
-	<div class="panels" data-bind="splitterFlex: {name: 'downloads_list', sizes: [60, 40]}">
+	<div class="panels" data-bind="splitterFlex: {name: 'downloads_list', sizes: [60, 40], 'onDragEnd': chartUpdate}">
 		<div class="panel" data-splitter="downloads_list">
 			<div class="panel_content">
 				<div class="toolbar">
@@ -27,9 +27,9 @@
 						</span>
 
 						<div class="chart-ctrl">
-							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 1), css: { 'active' : chartRange() == 1 }">week</button>
-							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 2), css: { 'active' : chartRange() == 2 }">month</button>
-							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 3), css: { 'active' : chartRange() == 3 }">year</button>
+							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 'week'), css: { 'active' : chartRange() === 'week' }">week</button>
+							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 'month'), css: { 'active' : chartRange() === 'month' }">month</button>
+							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 'year'), css: { 'active' : chartRange() === 'year' }">year</button>
 						</div>
 
 						<div id="myPieChart" data-bind="initDom: chartCont">
