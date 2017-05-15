@@ -27,13 +27,17 @@
 						</span>
 
 						<div class="chart-ctrl">
-							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 'week'), css: { 'active' : chartRange() === 'week' }">week</button>
-							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 'month'), css: { 'active' : chartRange() === 'month' }">month</button>
-							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 'year'), css: { 'active' : chartRange() === 'year' }">year</button>
+							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 'week'), css: { 'active' : rangeType() === 'week' }">week</button>
+							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 'month'), css: { 'active' : rangeType() === 'month' }">month</button>
+							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 'year'), css: { 'active' : rangeType() === 'year' }">year</button>
+							<div class="chart-ctrl_range" data-bind="text: yearRange">
+								
+							</div>
 						</div>
 
-						<div id="myPieChart" data-bind="initDom: chartCont">
-
+						<div class="chart-container" data-bind="css: { 'chart-container_week': rangeType() === 'week',  'chart-container_month': rangeType() === 'month',  'chart-container_year': rangeType() === 'year' }">
+							<div id="myPieChart" data-bind="initDom: chartCont, css: {active: loadingChartDataStatus()}"></div>
+							<span class="description" data-bind="i18n: {'key': '%MODULENAME%/INFO_LOADING_LIST'}, visible: !loadingChartDataStatus()"></span>
 						</div>
 					</div>
 					<div class="panel_center unselectable" data-bind="customScrollbar: {'scrollToTopTrigger': listChanged, x: false}">

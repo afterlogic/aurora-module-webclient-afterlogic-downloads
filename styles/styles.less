@@ -24,6 +24,11 @@
 .chart-ctrl{
   margin: 15px;
 
+  &_range{
+    display: inline-block;
+    vertical-align: middle;
+  }
+
   &_btn{
     width: 80px;
     margin-right: 10px;
@@ -41,6 +46,61 @@
     &.active{
       color: white;
       background-color: #287B8B;
+    }
+  }
+}
+
+.chart-container{
+  position: relative;
+  z-index: 1;
+  overflow: auto;
+
+  .description{
+    color: #cccccc;
+    display: block;
+    font-size: 18px;
+    padding: 8px 14px 26px;
+    text-align: center;
+    position: absolute;
+    top: 40%;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    box-sizing: border-box;
+  }
+
+  &_week{
+    #myPieChart{
+      min-width: 600px;
+
+      .ct-label.ct-horizontal{
+        font-size: 11px;
+      }
+    }
+  }
+
+  &_month{
+    #myPieChart{
+      min-width: 1200px;
+    }
+  }
+
+  &_year{
+    #myPieChart{
+      min-width: 700px;
+
+      .ct-label.ct-horizontal{
+        font-size: 11px;
+      }
+    }
+  }
+
+  #myPieChart{
+    opacity: 0;
+    transition: 0.3s;
+
+    &.active{
+      opacity: 1;
     }
   }
 }

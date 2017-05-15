@@ -281,10 +281,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 				'Email' => ['%'.$Search.'%', 'LIKE']
 			];
 			
-			
-			
-//			if (count($aFilters) > 0)
-			if ($sFromDate && $sTillDate)
+			if ($FromDate && $TillDate)
 			{
 				$aFilters = [
 					'$AND' => [
