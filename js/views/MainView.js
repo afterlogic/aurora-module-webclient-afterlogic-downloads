@@ -4,6 +4,7 @@ var
 	_ = require('underscore'),
 	ko = require('knockout'),
 	$ = require('jquery'),
+	moment = require('moment'),
 	
 	
 	TextUtils = require('%PathToCoreWebclientModule%/js/utils/Text.js'),
@@ -27,7 +28,7 @@ var
 	CAbstractScreenView = require('%PathToCoreWebclientModule%/js/views/CAbstractScreenView.js'),
 	
 	Settings = require('modules/%ModuleName%/js/Settings.js'),
-	Chartist = require('modules/%ModuleName%/js/chartist.js')
+	Chartist = require('modules/%ModuleName%/js/vendor/chartist.js')
 ;
 
 /**
@@ -124,9 +125,9 @@ function CMainView()
 
 	this.rangeType = ko.observable('month');
 
-	this.yearRange = ko.observable();
+	this.currentRange = ko.observable();
 
-	this.chartList = ko.observableArray([]);
+	this.chartList = ko.observable([]);
 
 	this.oChart = null;
 
@@ -229,45 +230,69 @@ CMainView.prototype.requestDownloadsList = function ()
 	);
 };
 
-CMainView.prototype.setRange = function (dayCount) {
-	var date = new Date();
-	var result = new Date(date.getTime() - (86400000 * dayCount));
-	result = result.toISOString();
-	result = result.slice(0, result.indexOf('T'));
-	return result;
+CMainView.prototype.changeRange = function (sRangeType)
+{
+	this.rangeType(sRangeType);
+	this.requestDownloadsCartData();
 };
 
-CMainView.prototype.requestDownloadsCartData = function (rangeType)
+CMainView.prototype.chartUpdate = function ()
 {
-	var fromDate;
-	var tilDate = this.setRange(0);
+	this.oChart.update();
+};
 
-	if(rangeType === 'week'){
-		fromDate = this.setRange(20);
+CMainView.prototype.getSpecificDateRange = function (oDate, iDayCount, sInterval, sDateFormat) {
+	var 
+		oResult = {},
+		i = iDayCount,
+		oMoment = moment(oDate).subtract(iDayCount+1, sInterval)
+	;
+
+	for (; i >= 0; i--){
+		var oDay = oMoment.add(1, sInterval);
+
+		oResult[oDay.format(sDateFormat)] = 0;
 	}
 
-	if(rangeType === 'month'){
-		fromDate = this.setRange(30);
-	}
+	return oResult;
+};
 
-	if(rangeType === 'year'){
-		fromDate = this.setRange(365);
-	}
+CMainView.prototype.requestDownloadsCartData = function ()
+{
+	this.loadingChartDataStatus(false);
+	
+	var 
+		oCurrentDate = new Date(),
+		oMoment = moment(oCurrentDate),
+		fromDate = '',
+		tillDate = oMoment.format('YYYY-MM-DD')
+	;
 
-	else{
-		fromDate = this.setRange(30);
+	switch (this.rangeType())
+	{
+		case 'week':
+			fromDate = oMoment.subtract(21, 'days').format('YYYY-MM-DD');
+			break;
+		case 'month':
+			fromDate = oMoment.subtract(1, 'months').format('YYYY-MM-DD');
+			break;
+		case 'year':
+			fromDate = oMoment.subtract(1, 'years').format('YYYY-MM-DD');
+			break;
 	}
-
+	
 	Ajax.send(
 		Settings.ServerModuleName,
 		'GetItemsForChart', 
 		{
 			'Search': this.search(),
 			'FromDate': fromDate,
-			'TillDate': tilDate
+			'TillDate': tillDate
 		},
 //		this.onGetDownloadsListResponse,
 		function (oResponse) {
+			this.loadingChartDataStatus(true);
+			
 			if(oResponse.Result)
 			{
 				this.chartList(oResponse.Result.List);
@@ -455,7 +480,6 @@ CMainView.prototype.onClearSearchClick = function ()
 	this.searchSubmitCommand();
 };
 
-
 CMainView.prototype.onShow = function ()
 {
 	this.selector.useKeyboardKeys(true);
@@ -470,16 +494,6 @@ CMainView.prototype.onHide = function ()
 	this.oPageSwitcher.hide();
 };
 
-CMainView.prototype.changeRange = function (rangeType)
-{
-	this.rangeType(rangeType);
-	this.requestDownloadsCartData(rangeType);
-};
-
-CMainView.prototype.chartUpdate = function ()
-{
-	this.oChart.update();
-};
 CMainView.prototype.onBind = function ()
 {
 	this.selector.initOnApplyBindings(
@@ -489,122 +503,69 @@ CMainView.prototype.onBind = function ()
 		$('.contact_list', this.$viewDom),
 		$('.contact_list_scroll.scroll-inner', this.$viewDom)
 	);
-
-	this.oChart = new Chartist.Line(this.chartCont()[0], null, {
-		fullWidth: true,
-		chartPadding: {
-			right: 40
-		}
-	});
+	
+	this.hotKeysBind();
+	
+	if (this.chartCont()[0])
+	{
+		this.oChart = new Chartist.Line(this.chartCont()[0], null, {
+			fullWidth: true,
+			chartPadding: {
+				right: 40
+			}
+		});
+	}
 
 	this.chartList.subscribe(function (aDownloads) {
-		if(this.oChart){
-			var downloadsGroup,
-				date = [],
-				downloadsCount = [],
+		if(this.oChart)
+		{
+			var 
+				oGroupedDownloads,
 				allRangeDays,
-				self = this;
+				oDate = new Date(),
+				sDisplayRange = ''
+			;
 
-			var getDaysCount = function (dayCount, sliceStart, sliceEnd) {
-				var date = new Date();
-				var result = {};
-				var yearRange;
+			switch(this.rangeType())
+			{
+				case 'week':
+					allRangeDays = this.getSpecificDateRange(oDate, 7, 'days', 'MM-DD');
+					sDisplayRange = moment(oDate).subtract(7, 'days').format("YYYY-MM-DD") + ' / ' + moment(oDate).format("YYYY-MM-DD");
+					
+					aDownloads.forEach(function (i) {
+						i.Date = moment(i.Date).format('MM-DD');
+					});
+					break;
+					
+				case 'month':
+					allRangeDays = this.getSpecificDateRange(oDate, 30, 'days', 'MM-DD');
+					sDisplayRange = moment(oDate).subtract(30, 'days').format("YYYY-MM-DD") + ' / ' + moment(oDate).format("YYYY-MM-DD");
+					
+					aDownloads.forEach(function (i) {
+						i.Date = moment(i.Date).format('MM-DD');
+					});
+					break;
+					
+				case 'year':
+					allRangeDays = this.getSpecificDateRange(oDate, 12, 'months', 'YYYY-MM');
+					sDisplayRange = moment(oDate).subtract(12, 'months').format("YYYY-MM-DD") + ' / ' + moment(oDate).format("YYYY-MM-DD");
 
-				for (var i = 0; i < dayCount; i++){
-					var day = new Date(date.getTime() - (86400000 * i));
-					day = day.toISOString();
-					if(i === 0){
-						yearRange = day.slice(0, 4);
-					}
-					if(i === dayCount-1){
-						if(yearRange !== day.slice(0, 4)){
-							yearRange += ' / ' + day.slice(0, 4);
-
-						}
-					}
-					self.yearRange(yearRange);
-					day = day.slice(sliceStart, sliceEnd);
-					result[day] = '';
-				}
-				return result;
-			};
-
-			if(this.rangeType() === 'year'){
-				allRangeDays = getDaysCount(365, 0, 7);
-
-				aDownloads.forEach(function (i) {
-					i.Date = i.Date.slice(0, 7);
-				});
+					aDownloads.forEach(function (i) {
+						i.Date = moment(i.Date).format('YYYY-MM');
+					});
+					break;
 			}
-			else if(this.rangeType() === 'month'){
-				allRangeDays = getDaysCount(30, 5, 10);
-				aDownloads.forEach(function (i) {
-					i.Date = i.Date.slice(5, 10);
-				});
-			}
-			else if(this.rangeType() === 'week'){
-				allRangeDays = getDaysCount(7, 0, 10);
-				aDownloads.forEach(function (i) {
-					i.Date = i.Date.slice(0, 10)
-				});
-			}
-
-
-			downloadsGroup = _.groupBy(aDownloads, "Date");
-
-			for (var key in allRangeDays){
-				allRangeDays[key] = downloadsGroup[key] || '';
-			}
-
-			for (var item in allRangeDays){
-				date.push(item);
-				downloadsCount.push(allRangeDays[item].length);
-			}
+			
+			this.currentRange(sDisplayRange);
+		
+			oGroupedDownloads = _.extendOwn(allRangeDays, _.countBy(aDownloads, "Date"));
 
 			this.oChart.update({
-				labels: date.reverse(),
-				series: [downloadsCount.reverse()]
+				labels: _.keys(allRangeDays),
+				series: [_.values(allRangeDays)]
 			});
-
-			this.loadingChartDataStatus(true);
 		}
 	}, this);
-
-	this.rangeType.subscribe(function () {
-		this.loadingChartDataStatus(false);
-	}, this);
-
-
-	this.downloadsList.subscribe(function (aDownloads) {
-
-	});
-
-//	var self = this;
-//console.log(this.$viewDom);
-//	this.$viewDom.on('click', '.content .item.add_to .dropdown_helper .item', function () {
-//
-//		if ($(this).hasClass('new-group'))
-//		{
-//			self.executeNewGroup();
-//		}
-//		else
-//		{
-//			self.executeAddSelectedContactsToGroup(ko.dataFor(this));
-//		}
-//	});
-
-//	this.showPersonalContacts(-1 !== $.inArray('personal', Settings.Storages));
-//	this.showTeamContacts(-1 !== $.inArray('team', Settings.Storages));
-//	this.showSharedToAllContacts(-1 !== $.inArray('shared', Settings.Storages));
-//	
-//	this.selectedStorage(this.selectedStorage());
-	
-//	this.oImportView.onBind();
-//	this.requestGroupFullList();
-
-	this.hotKeysBind();
-
-//	this.initUploader();
 };
 
 CMainView.prototype.searchFocus = function ()
