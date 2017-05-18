@@ -28,7 +28,8 @@ var
 	CAbstractScreenView = require('%PathToCoreWebclientModule%/js/views/CAbstractScreenView.js'),
 	
 	Settings = require('modules/%ModuleName%/js/Settings.js'),
-	Chartist = require('modules/%ModuleName%/js/vendor/chartist.js')
+	Chartist = require('modules/%ModuleName%/js/vendor/chartist.js'),
+	Chart = require('modules/%ModuleName%/js/vendor/chart.js')
 ;
 
 /**
@@ -238,7 +239,7 @@ CMainView.prototype.changeRange = function (sRangeType)
 
 CMainView.prototype.chartUpdate = function ()
 {
-	this.oChart.update();
+	//this.oChart.update();
 };
 
 CMainView.prototype.getSpecificDateRange = function (oDate, iDayCount, sInterval, sDateFormat) {
@@ -505,13 +506,48 @@ CMainView.prototype.onBind = function ()
 	);
 	
 	this.hotKeysBind();
-	
+
 	if (this.chartCont()[0])
 	{
-		this.oChart = new Chartist.Line(this.chartCont()[0], null, {
-			fullWidth: true,
-			chartPadding: {
-				right: 40
+		// this.oChart = new Chartist.Line(this.chartCont()[0], null, {
+		// 	fullWidth: true,
+		// 	chartPadding: {
+		// 		right: 40
+		// 	}
+		// });
+
+		var ctx = document.getElementById("myPieChart");
+		this.oChart = new Chart(ctx, {
+			type: 'line',
+			data: {
+				datasets: [{
+					label: '# of Downloads',
+					backgroundColor: [
+						'rgba(255, 99, 132, 0.2)'
+					],
+					borderColor: [
+						'rgba(255,99,132,1)'
+					],
+					borderWidth: 1,
+					pointRadius: 3,
+					pointBorderWidth: 1,
+					pointHoverRadius: 5,
+					lineTension: 0,
+				}]
+			},
+			options: {
+				maintainAspectRatio: false,
+				scales: {
+					yAxes: [{
+
+						ticks: {
+							beginAtZero:true
+						}
+					}]
+				},
+				legend:{
+					display: false
+				}
 			}
 		});
 	}
@@ -560,10 +596,15 @@ CMainView.prototype.onBind = function ()
 		
 			oGroupedDownloads = _.extendOwn(allRangeDays, _.countBy(aDownloads, "Date"));
 
-			this.oChart.update({
-				labels: _.keys(allRangeDays),
-				series: [_.values(allRangeDays)]
-			});
+
+			this.oChart.data.datasets[0].data = _.values(allRangeDays);
+			this.oChart.data.labels = _.keys(allRangeDays);
+			this.oChart.update();
+
+			// this.oChart.update({
+			// 	labels: _.keys(allRangeDays),
+			// 	series: [_.values(allRangeDays)]
+			// });
 		}
 	}, this);
 };

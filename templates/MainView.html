@@ -30,15 +30,17 @@
 							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 'week'), css: { 'active' : rangeType() === 'week' }">week</button>
 							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 'month'), css: { 'active' : rangeType() === 'month' }">month</button>
 							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 'year'), css: { 'active' : rangeType() === 'year' }">year</button>
-							<div class="chart-ctrl_range" data-bind="text: currentRange">
-								
-							</div>
+							<!--<div class="chart-ctrl_range" data-bind="text: currentRange">-->
+								<!---->
+							<!--</div>-->
 						</div>
 
 						<div class="chart-container" data-bind="css: { 'chart-container_week': rangeType() === 'week',  'chart-container_month': rangeType() === 'month',  'chart-container_year': rangeType() === 'year' }">
-							<div id="myPieChart" data-bind="initDom: chartCont, css: {active: loadingChartDataStatus()}"></div>
+							<canvas id="myPieChart" data-bind="initDom: chartCont, css: {active: loadingChartDataStatus()}"></canvas>
 							<span class="description" data-bind="i18n: {'key': '%MODULENAME%/INFO_LOADING_LIST'}, visible: !loadingChartDataStatus()"></span>
 						</div>
+
+
 					</div>
 					<div class="panel_center unselectable" data-bind="customScrollbar: {'scrollToTopTrigger': listChanged, x: false}">
 						<div class="contact_list_scroll scroll-inner">
@@ -76,7 +78,7 @@
 												<span style="width: 30%" class="" data-bind="text: sProductName + ' (' + sPackageName + ')'"></span>
 												<span style="width: 50px" class="fixed" data-bind="text: sProductVersion"></span>
 												<span style="width: 20%" class="" data-bind="text: sEmail"></span>
-												<span style="width: 380px" class="fixed" data-bind="text: sLicenseKey"></span>
+												<span style="width: 380px" class="fixed" data-bind="text: sReferer"></span>
 												<span style="width: 110px" class="fixed" data-bind="text: sDate"></span>
 											</span>
 											<div class="separator"></div>

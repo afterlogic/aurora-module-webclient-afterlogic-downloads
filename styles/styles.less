@@ -6,7 +6,6 @@
 	}
 }
 
-
 .panel.download_viewer{
 
   .panel_content{
@@ -76,35 +75,11 @@
     box-sizing: border-box;
   }
 
-  &_week{
-    #myPieChart{
-      min-width: 600px;
-
-      .ct-label.ct-horizontal{
-        font-size: 11px;
-      }
-    }
-  }
-
-  &_month{
-    #myPieChart{
-      min-width: 1200px;
-    }
-  }
-
-  &_year{
-    #myPieChart{
-      min-width: 700px;
-
-      .ct-label.ct-horizontal{
-        font-size: 11px;
-      }
-    }
-  }
-
   #myPieChart{
     opacity: 0;
     transition: 0.3s;
+    width: 100%;
+    height: 300px!important;
 
     &.active{
       opacity: 1;
