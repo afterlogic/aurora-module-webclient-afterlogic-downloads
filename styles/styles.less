@@ -33,6 +33,12 @@
   &_range{
     display: inline-block;
     vertical-align: middle;
+    transition: 0.3s;
+    opacity: 0;
+
+    &.active{
+      opacity: 1;
+    }
   }
 
   &_btn{
@@ -79,7 +85,7 @@
     opacity: 0;
     transition: 0.3s;
     width: 100%;
-    height: 300px!important;
+    height: 250px!important;
 
     &.active{
       opacity: 1;

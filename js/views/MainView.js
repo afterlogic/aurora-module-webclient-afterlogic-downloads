@@ -521,13 +521,16 @@ CMainView.prototype.onBind = function ()
 			type: 'line',
 			data: {
 				datasets: [{
-					label: '# of Downloads',
+					label: 'Downloads',
 					backgroundColor: [
-						'rgba(255, 99, 132, 0.2)'
+						'rgba(120, 184, 240, 0.5)'
 					],
 					borderColor: [
-						'rgba(255,99,132,1)'
+						'rgba(120, 184, 240, 1)'
 					],
+					pointBackgroundColor: "rgba(120, 184, 240, 1)",
+					pointHoverBackgroundColor: "rgba(120, 184, 240, 1)",
+					pointHoverBorderColor: "rgba(40, 123, 139, 1)",
 					borderWidth: 1,
 					pointRadius: 3,
 					pointBorderWidth: 1,
@@ -547,6 +550,13 @@ CMainView.prototype.onBind = function ()
 				},
 				legend:{
 					display: false
+				},
+				tooltips:{
+					displayColors: false,
+					backgroundColor: "rgba(40, 123, 139, 1)"
+				},
+				animation:{
+					duration: 0
 				}
 			}
 		});
@@ -591,7 +601,6 @@ CMainView.prototype.onBind = function ()
 					});
 					break;
 			}
-			
 			this.currentRange(sDisplayRange);
 		
 			oGroupedDownloads = _.extendOwn(allRangeDays, _.countBy(aDownloads, "Date"));

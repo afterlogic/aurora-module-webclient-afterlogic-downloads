@@ -30,9 +30,9 @@
 							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 'week'), css: { 'active' : rangeType() === 'week' }">week</button>
 							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 'month'), css: { 'active' : rangeType() === 'month' }">month</button>
 							<button class="chart-ctrl_btn" data-bind="click: changeRange.bind($data, 'year'), css: { 'active' : rangeType() === 'year' }">year</button>
-							<!--<div class="chart-ctrl_range" data-bind="text: currentRange">-->
-								<!---->
-							<!--</div>-->
+							<div class="chart-ctrl_range" data-bind="text: currentRange, css: {active: loadingChartDataStatus()}">
+
+							</div>
 						</div>
 
 						<div class="chart-container" data-bind="css: { 'chart-container_week': rangeType() === 'week',  'chart-container_month': rangeType() === 'month',  'chart-container_year': rangeType() === 'year' }">
