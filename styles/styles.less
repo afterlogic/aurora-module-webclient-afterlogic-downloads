@@ -29,6 +29,7 @@
 
 .chart-ctrl{
   margin: 15px;
+  white-space: normal;
 
   &_range{
     display: inline-block;
@@ -44,6 +45,7 @@
   &_btn{
     width: 80px;
     margin-right: 10px;
+    margin-bottom: 10px;
     outline: none;
     border: none;
     border-radius: 0;
@@ -59,13 +61,16 @@
       color: white;
       background-color: #287B8B;
     }
+
+    &.disabled{
+      pointer-events: none;
+    }
   }
 }
 
 .chart-container{
   position: relative;
   z-index: 1;
-  overflow: auto;
 
   .description{
     color: #cccccc;
