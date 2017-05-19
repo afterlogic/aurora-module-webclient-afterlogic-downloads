@@ -32,7 +32,7 @@ class CDownloadItem extends \Aurora\System\EAV\Entity
 		$this->aStaticMap = array(
 			'Date'				=> array('datetime', date('Y-m-d H:i:s')),
 			'Email'				=> array('string', ''),
-			'Referer'			=> array('string', ''),
+			'Referer'			=> array('text', ''),
 			'Ip'				=> array('string', ''),
 			'ProductId'			=> array('int', 0),
 			'ExternalProductId'	=> array('int', 0),
