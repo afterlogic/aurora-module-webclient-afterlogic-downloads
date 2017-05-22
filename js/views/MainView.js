@@ -229,6 +229,12 @@ CMainView.prototype.requestDownloadsList = function ()
 	);
 };
 
+CMainView.prototype.refreshDownloads = function ()
+{
+	this.requestDownloadsList();
+	this.requestDownloadsCartData();
+};
+
 CMainView.prototype.changeRange = function (sRangeType)
 {
 	this.rangeType(sRangeType);
@@ -495,7 +501,6 @@ CMainView.prototype.onHide = function ()
 
 CMainView.prototype.onBind = function ()
 {
-	console.log('test');
 	this.requestDownloadsCartData();
 
 	this.selector.initOnApplyBindings(
