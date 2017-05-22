@@ -28,7 +28,6 @@ var
 	CAbstractScreenView = require('%PathToCoreWebclientModule%/js/views/CAbstractScreenView.js'),
 	
 	Settings = require('modules/%ModuleName%/js/Settings.js'),
-	Chartist = require('modules/%ModuleName%/js/vendor/chartist.js'),
 	Chart = require('modules/%ModuleName%/js/vendor/chart.js')
 ;
 
@@ -241,12 +240,8 @@ CMainView.prototype.changeRange = function (sRangeType)
 	this.requestDownloadsCartData();
 };
 
-CMainView.prototype.chartUpdate = function ()
+CMainView.prototype.getSpecificDateRange = function (oDate, iDayCount, sInterval, sDateFormat)
 {
-	//this.oChart.update();
-};
-
-CMainView.prototype.getSpecificDateRange = function (oDate, iDayCount, sInterval, sDateFormat) {
 	var 
 		oResult = {},
 		i = iDayCount,
