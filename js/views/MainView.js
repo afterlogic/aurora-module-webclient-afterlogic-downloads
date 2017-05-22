@@ -207,8 +207,6 @@ CMainView.prototype.onRoute = function (aParams)
 	{
 		this.requestDownloadsList();
 	}
-
-	this.requestDownloadsCartData();
 };
 
 CMainView.prototype.requestDownloadsList = function ()
@@ -497,6 +495,9 @@ CMainView.prototype.onHide = function ()
 
 CMainView.prototype.onBind = function ()
 {
+	console.log('test');
+	this.requestDownloadsCartData();
+
 	this.selector.initOnApplyBindings(
 		'.items_sub_list .item',
 		'.items_sub_list .selected.item',
