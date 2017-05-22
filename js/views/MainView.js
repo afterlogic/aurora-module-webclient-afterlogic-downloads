@@ -271,16 +271,15 @@ CMainView.prototype.requestDownloadsCartData = function ()
 	switch (this.rangeType())
 	{
 		case 'week':
-			fromDate = oMoment.subtract(7, 'days').format('YYYY-MM-DD');
+			fromDate = oMoment.add(1, 'days').subtract(7, 'days').format('YYYY-MM-DD');
 			break;
 		case 'month':
-			fromDate = oMoment.subtract(30, 'day').format('YYYY-MM-DD');
+			fromDate = oMoment.add(1, 'days').subtract(30, 'day').format('YYYY-MM-DD');
 			break;
 		case 'year':
-			fromDate = oMoment.subtract(12, 'months').format('YYYY-MM-DD');
+			fromDate = oMoment.add(1, 'days').subtract(12, 'months').format('YYYY-MM-DD');
 			break;
 	}
-	
 	Ajax.send(
 		Settings.ServerModuleName,
 		'GetItemsForChart', 
