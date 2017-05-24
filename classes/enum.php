@@ -17,13 +17,11 @@
  * 
  */
 
-namespace Aurora\Modules\Enums;
-
 /**
  * @package Api
  * @subpackage Enum
  */
-class DownloadsSortField extends \AbstractEnumeration
+class DownloadsSortField extends \Aurora\System\Enums\AbstractEnumeration
 {
 	const Date = 1;
 	const ProductId = 2;

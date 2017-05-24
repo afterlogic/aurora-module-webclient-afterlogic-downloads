@@ -18,23 +18,24 @@
  * @package Modules
  */
 
-use Aurora\Modules\Enums;
+//use Aurora\Modules\Enums;
+namespace Aurora\Modules\AfterlogicDownloadsWebclient;
 
 /**
  * CApiContactsManager class summary
  * 
  * @package ContactsMain
  */
-class CApiAfterlogicDownloadsWebclientManager extends \Aurora\System\Managers\AbstractManager
+class Manager extends \Aurora\System\Managers\AbstractManager
 {
 	private $oEavManager = null;
 
 	/**
 	 * @param CApiGlobalManager &$oManager
 	 */
-	public function __construct(\Aurora\System\Managers\GlobalManager &$oManager, $sForcedStorage = 'db', \Aurora\System\Module\AbstractModule $oModule = null)
+	public function __construct($sForcedStorage = '', \Aurora\System\Module\AbstractModule $oModule = null)
 	{
-		parent::__construct('', $oManager, $oModule);
+		parent::__construct('manager', $oModule);
 
 		if ($oModule instanceof \Aurora\System\Module\AbstractModule)
 		{
@@ -98,7 +99,7 @@ class CApiAfterlogicDownloadsWebclientManager extends \Aurora\System\Managers\Ab
 	 * 
 	 * @return array|bool
 	 */
-	public function getDownloads($aFields = array(), $iSortField = Enums\DownloadsSortField::Date, $iSortOrder = \ESortOrder::ASC,
+	public function getDownloads($aFields = array(), $iSortField = Enums\SortField::Date, $iSortOrder = \ESortOrder::ASC,
 		$iOffset = 0, $iRequestLimit = 20, $aFilters = [], $aIds = [])
 	{
 		return $this->oEavManager->getEntities(
@@ -107,7 +108,7 @@ class CApiAfterlogicDownloadsWebclientManager extends \Aurora\System\Managers\Ab
 			$iOffset,
 			$iRequestLimit,
 			$aFilters,
-			$iSortField === Enums\DownloadsSortField::Date ? 'Date' : 'iObjectId',
+			$iSortField === Enums\SortField::Date ? 'Date' : 'iObjectId',
 			$iSortOrder
 //			$aIds
 		);

@@ -2,7 +2,7 @@
 
 namespace Aurora\Modules\AfterlogicDownloadsWebclient;
 
-use \Aurora\Modules\Enums;
+//use \Aurora\Modules\Enums;
 
 class Module extends \Aurora\System\Module\AbstractWebclientModule
 {
@@ -16,7 +16,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 			)
 		);
 		
-		$this->oApiDownloadsManager = $this->GetManager();	
+		$this->oApiDownloadsManager = new Manager('', $this);	
 	}
 	
 	private function prepareFilters($aRawFilters)
@@ -63,10 +63,10 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 	 */
 	public function GetSettings()
 	{
-		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::Anonymous);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::Anonymous);
 		
 		$oUser = \Aurora\System\Api::getAuthenticatedUser();
-		if (!empty($oUser) && ($oUser->Role === \EUserRole::NormalUser && $this->isEnabledForEntity($oUser) || $oUser->Role === \EUserRole::SuperAdmin))
+		if (!empty($oUser) && ($oUser->Role === \Aurora\System\Enums\UserRole::NormalUser && $this->isEnabledForEntity($oUser) || $oUser->Role === \Aurora\System\Enums\UserRole::SuperAdmin))
 		{
 			return array(
 				'ItemsPerPage' => $this->getConfig('ItemsPerPage', 20)
@@ -93,7 +93,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 //	{
 //		if (is_numeric($AuthMode) && is_numeric($TokenMode) && $Url)
 //		{
-//			\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
+//			\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
 //			
 //			$this->setConfig('AppName', $AppName);
 //			$this->setConfig('AuthMode', $AuthMode);
@@ -105,7 +105,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 //		
 //		if (!empty($Login) && !empty($Password))
 //		{
-//			\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+//			\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
 //			$oUser = \Aurora\System\Api::getAuthenticatedUser();
 //			if ($oUser)
 //			{
@@ -125,14 +125,14 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 	 */
 	public function GetCredentials()
 	{
-		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
 		
 		$oUser = \Aurora\System\Api::getAuthenticatedUser();
 		
 		$iAuthMode = $this->getConfig('AuthMode', \EIframeAppAuthMode::NoAuthentication);
 				
 		if (($iAuthMode === \EIframeAppAuthMode::CustomCredentialsSetByUser || $iAuthMode === \EIframeAppAuthMode::CustomCredentialsSetByAdmin)
-				&& !empty($oUser) && $oUser->Role === \EUserRole::NormalUser)
+				&& !empty($oUser) && $oUser->Role === \Aurora\System\Enums\UserRole::NormalUser)
 		{
 			return array(
 				'Login' => $oUser->{$this->GetName().'::Login'},
@@ -150,7 +150,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 	 */
 	public function GetPerUserSettings($UserId)
 	{
-		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
 		
 		$oUser = null;
 		$oCoreDecorator = \Aurora\System\Api::GetModuleDecorator('Core');
@@ -179,7 +179,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 	 */
 	public function UpdatePerUserSettings($UserId, $EnableModule, $Login = '', $Password = '')
 	{
-		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
 		
 		$oUser = null;
 		$oCoreDecorator = \Aurora\System\Api::GetModuleDecorator('Core');
@@ -205,9 +205,9 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		return false;
 	}
 	
-	public function GetItems($Offset = 0, $Limit = 20, $SortField = Enums\DownloadsSortField::Date, $SortOrder = \ESortOrder::DESC, $Search = '', $Filters = array())
+	public function GetItems($Offset = 0, $Limit = 20, $SortField = Enums\SortField::Date, $SortOrder = \Aurora\System\Enums\SortOrder::DESC, $Search = '', $Filters = array())
 	{
-		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
 
 		$aFilters = $this->prepareFilters($Filters);
 //		
@@ -251,7 +251,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 	
 	public function GetItemsForChart($Search = '', $FromDate = '', $TillDate = '')
 	{
-		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
 
 //		$aFilters = $this->prepareFilters($Filters);
 		
@@ -305,7 +305,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		//$aFields = array('ProductName', 'Date');
 		$aFields = array('Date');
 
-		$aList = $this->oApiDownloadsManager->getDownloads($aFields, Enums\DownloadsSortField::Date, \ESortOrder::DESC, 0, 0, $aFilters);
+		$aList = $this->oApiDownloadsManager->getDownloads($aFields, Enums\SortField::Date, \Aurora\System\Enums\SortOrder::DESC, 0, 0, $aFilters);
 		
 		
 		$aSortedFields = array();
@@ -330,20 +330,20 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 	 */
 	public function GetItem($UUID)
 	{
-		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
 		
 		return $this->oApiDownloadsManager->getDownload((string)$UUID);
 	}
 	
 	public function CreateDownload($Data)
 	{
-//		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+//		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
 		
 //		$oUser = \Aurora\System\Api::getAuthenticatedUser();
 		
 //		if ($iUserId > 0 && $iUserId !== $oUser->iId)
 //		{
-//			\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::SuperAdmin);
+//			\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
 //			
 //			$oCoreDecorator = \Aurora\System\Api::GetModuleDecorator('Core');
 //			if ($oCoreDecorator)
@@ -361,7 +361,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 	
 	public function DeleteItems($Ids)
 	{
-		\Aurora\System\Api::checkUserRoleIsAtLeast(\EUserRole::NormalUser);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
 		
 		file_put_contents("f:\web\domains\project8.dev\data\logs\log-2017-02-02.txt", json_encode($Ids));
 		
