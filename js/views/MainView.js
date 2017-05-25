@@ -264,20 +264,20 @@ CMainView.prototype.requestDownloadsCartData = function ()
 	var 
 		oCurrentDate = new Date(),
 		oMoment = moment(oCurrentDate),
-		fromDate = '',
-		tillDate = oMoment.format('YYYY-MM-DD')
+		sFromDate = '',
+		sTillDate = moment(oCurrentDate).add(1, 'days').format('YYYY-MM-DD')
 	;
 
 	switch (this.rangeType())
 	{
 		case 'week':
-			fromDate = oMoment.add(1, 'days').subtract(7, 'days').format('YYYY-MM-DD');
+			sFromDate = oMoment.subtract(7, 'days').format('YYYY-MM-DD');
 			break;
 		case 'month':
-			fromDate = oMoment.add(1, 'days').subtract(30, 'day').format('YYYY-MM-DD');
+			sFromDate = oMoment.subtract(30, 'day').format('YYYY-MM-DD');
 			break;
 		case 'year':
-			fromDate = oMoment.add(1, 'days').subtract(12, 'months').format('YYYY-MM-DD');
+			sFromDate = oMoment.subtract(12, 'months').format('YYYY-MM-DD');
 			break;
 	}
 	Ajax.send(
@@ -285,8 +285,8 @@ CMainView.prototype.requestDownloadsCartData = function ()
 		'GetItemsForChart', 
 		{
 			'Search': this.search(),
-			'FromDate': fromDate,
-			'TillDate': tillDate
+			'FromDate': sFromDate,
+			'TillDate': sTillDate
 		},
 //		this.onGetDownloadsListResponse,
 		function (oResponse) {
