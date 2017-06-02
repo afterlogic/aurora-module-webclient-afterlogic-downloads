@@ -243,9 +243,19 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		$iCount = $this->oApiDownloadsManager->getDownloadsCount($aFilters);
 		$aList = $this->oApiDownloadsManager->getDownloads(array(), $SortField, $SortOrder, $Offset, $Limit, $aFilters);
 
+		$aClearList = array();
+foreach ($aList as $oItem) {
+    $aClearList[] = array(
+        'UUID' => $oItem->UUID
+
+    );
+
+
+}
 		return array(
 			'ItemsCount' => $iCount,
 			'List' => \Aurora\System\Managers\Response::GetResponseObject($aList)
+            //'List' => $aClearList
 		);
 	}
 	
@@ -303,17 +313,21 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		}
 
 		//$aFields = array('ProductName', 'Date');
-		$aFields = array('Date');
+		$aFields = array('Date', 'Referer');
 
 		$aList = $this->oApiDownloadsManager->getDownloads($aFields, Enums\SortField::Date, \Aurora\System\Enums\SortOrder::DESC, 0, 0, $aFilters);
-		
-		
+
+
+
 		$aSortedFields = array();
 		
 		foreach ($aList as $oItem)
 		{
-			$aSortedFields[] = array(
-				'Date' => $oItem->Date
+		    $bGa = strpos($oItem->Referer, 'gad=') !== false;
+
+		    $aSortedFields[] = array(
+				'Date' => $oItem->Date,
+				'Ga' => $bGa ? 1 : 0
 				//'ProductName' => $oItem->ProductName
 			);
 		}

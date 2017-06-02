@@ -304,7 +304,6 @@ CMainView.prototype.requestDownloadsCartData = function ()
 CMainView.prototype.onGetDownloadsListResponse = function (oResponse)
 {
 	var oResult = oResponse.Result;
-
 	if (oResult)
 	{
 		var
@@ -518,25 +517,44 @@ CMainView.prototype.onBind = function ()
 
 		var ctx = document.getElementById("myPieChart");
 		this.oChart = new Chart(ctx, {
-			type: 'line',
+            type: 'line',
 			data: {
-				datasets: [{
-					label: 'Downloads',
-					backgroundColor: [
-						'rgba(120, 184, 240, 0.5)'
-					],
-					borderColor: [
-						'rgba(120, 184, 240, 1)'
-					],
-					pointBackgroundColor: "rgba(120, 184, 240, 1)",
-					pointHoverBackgroundColor: "rgba(120, 184, 240, 1)",
-					pointHoverBorderColor: "rgba(40, 123, 139, 1)",
-					borderWidth: 1,
-					pointRadius: 3,
-					pointBorderWidth: 1,
-					pointHoverRadius: 5,
-					lineTension: 0,
-				}]
+				datasets: [
+					{
+						label: 'Downloads',
+						backgroundColor: [
+							'rgba(120, 184, 240, 0.5)'
+						],
+						borderColor: [
+							'rgba(120, 184, 240, 1)'
+						],
+						pointBackgroundColor: "rgba(120, 184, 240, 1)",
+						pointHoverBackgroundColor: "rgba(120, 184, 240, 1)",
+						pointHoverBorderColor: "rgba(40, 123, 139, 1)",
+						borderWidth: 1,
+						pointRadius: 3,
+						pointBorderWidth: 1,
+						pointHoverRadius: 5,
+						lineTension: 0,
+					},
+					{
+						label: 'Ga',
+						backgroundColor: [
+							'rgba(237, 240, 120, 0.5)'
+						],
+						borderColor: [
+                            'rgba(237, 240, 120, 1)'
+						],
+						pointBackgroundColor: "rgba(237, 240, 120, 1)",
+						pointHoverBackgroundColor: "rgba(237, 240, 120, 1)",
+						pointHoverBorderColor: "rgba(237, 240, 120, 1)",
+						borderWidth: 1,
+						pointRadius: 3,
+						pointBorderWidth: 1,
+						pointHoverRadius: 5,
+						lineTension: 0
+					},
+				]
 			},
 			options: {
 				maintainAspectRatio: false,
@@ -549,7 +567,7 @@ CMainView.prototype.onBind = function ()
 					}]
 				},
 				legend:{
-					display: false
+					//display: false
 				},
 				tooltips:{
 					displayColors: false,
@@ -567,6 +585,7 @@ CMainView.prototype.onBind = function ()
 		{
 			var 
 				oGroupedDownloads,
+                oGroupedDownloadsGa,
 				allRangeDays,
 				oDate = new Date(),
 				sDisplayRange = ''
@@ -602,18 +621,16 @@ CMainView.prototype.onBind = function ()
 					break;
 			}
 			this.currentRange(sDisplayRange);
-		
-			oGroupedDownloads = _.extendOwn(allRangeDays, _.countBy(aDownloads, "Date"));
 
+            var oAllGaDownloads = _.filter(aDownloads, function(item){ return item.Ga !== 0});
 
-			this.oChart.data.datasets[0].data = _.values(allRangeDays);
+			oGroupedDownloads = _.extendOwn(_.clone(allRangeDays), _.countBy(aDownloads, "Date"));
+			oGroupedDownloadsGa = _.extendOwn(_.clone(allRangeDays), _.countBy(oAllGaDownloads, "Date"));
+
+            this.oChart.data.datasets[0].data = _.values(oGroupedDownloads);
+            this.oChart.data.datasets[1].data = _.values(oGroupedDownloadsGa);
 			this.oChart.data.labels = _.keys(allRangeDays);
 			this.oChart.update();
-
-			// this.oChart.update({
-			// 	labels: _.keys(allRangeDays),
-			// 	series: [_.values(allRangeDays)]
-			// });
 		}
 	}, this);
 };
