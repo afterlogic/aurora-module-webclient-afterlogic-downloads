@@ -323,9 +323,9 @@ foreach ($aList as $oItem) {
 		
 		foreach ($aList as $oItem)
 		{
-		    $bGa = strpos($oItem->Referer, 'gad=') !== false;
+		    $bGa = false;
 
-		    $aSortedFields[] = array(
+			$aSortedFields[] = array(
 				'Date' => $oItem->Date,
 				'Ga' => $bGa ? 1 : 0
 				//'ProductName' => $oItem->ProductName

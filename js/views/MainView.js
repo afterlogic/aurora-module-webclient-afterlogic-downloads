@@ -548,11 +548,7 @@ CMainView.prototype.onBind = function ()
 						pointBackgroundColor: "rgba(237, 240, 120, 1)",
 						pointHoverBackgroundColor: "rgba(237, 240, 120, 1)",
 						pointHoverBorderColor: "rgba(237, 240, 120, 1)",
-						borderWidth: 1,
-						pointRadius: 3,
-						pointBorderWidth: 1,
-						pointHoverRadius: 5,
-						lineTension: 0
+					
 					},
 				]
 			},
