@@ -29,7 +29,7 @@ function CDownloadListItemModel()
 	this.bProductCommercial = '';
 	this.iPackageId = '';
 	this.sPackageName = '';
-	//this.iGa = '';
+	this.iGa = '';
 
 	this.deleted = ko.observable(false);
 	this.checked = ko.observable(false);
@@ -58,7 +58,7 @@ CDownloadListItemModel.prototype.parse = function (oData)
 	this.bProductCommercial = !!oData.LicenseKey;
 	this.iPackageId = Types.pInt(oData.PackageId);
 	this.sPackageName = Types.pString(oData.PackageName);
-	//this.iGa = Types.pInt(oData.Ga);
+	this.iGa = Types.pInt(oData.Ga);
 };
 
 module.exports = CDownloadListItemModel;

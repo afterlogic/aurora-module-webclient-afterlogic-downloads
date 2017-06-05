@@ -339,6 +339,7 @@ CMainView.prototype.onGetDownloadsListResponse = function (oResponse)
 //			this.selector.itemSelected(oNewSelected);
 //			this.requestContact(oNewSelected.UUID());
 		}
+		console.log(this.downloadsList())
 	}
 	else
 	{
