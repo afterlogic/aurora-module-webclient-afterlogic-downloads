@@ -39,7 +39,7 @@ class Manager extends \Aurora\System\Managers\AbstractManager
 
 		if ($oModule instanceof \Aurora\System\Module\AbstractModule)
 		{
-			$this->oEavManager = new \Aurora\System\Managers\Eav($sForcedStorage);
+			$this->oEavManager = new \Aurora\System\Managers\Eav\Manager($sForcedStorage);
 		}
 	}
 	

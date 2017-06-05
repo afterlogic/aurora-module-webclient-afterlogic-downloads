@@ -78,7 +78,7 @@
 												<span style="width: 30%" class="" data-bind="text: sProductName + ' (' + sPackageName + ')'"></span>
 												<span style="width: 50px" class="fixed" data-bind="text: sProductVersion"></span>
 												<span style="width: 20%" class="" data-bind="text: sEmail"></span>
-												<span style="width: 380px" class="fixed" data-bind="text: sReferer"></span>
+												<span style="width: 380px" class="fixed" data-bind="text: sReferer, css: {'gaReferer' : sReferer.indexOf('gad=') !== -1 }"></span>
 												<span style="width: 110px" class="fixed" data-bind="text: sDate"></span>
 											</span>
 											<div class="separator"></div>

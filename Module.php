@@ -243,19 +243,23 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		$iCount = $this->oApiDownloadsManager->getDownloadsCount($aFilters);
 		$aList = $this->oApiDownloadsManager->getDownloads(array(), $SortField, $SortOrder, $Offset, $Limit, $aFilters);
 
-		$aClearList = array();
-foreach ($aList as $oItem) {
-    $aClearList[] = array(
-        'UUID' => $oItem->UUID
+        $aSortedFields = array();
 
-    );
+        foreach ($aList as $oItem)
+        {
+            $bGa = strpos($oItem->Referer, 'gad=') !== false;
 
+            $oItem = (array) $oItem;
 
-}
+            $aSortedFields[] = array_merge($oItem, array(
+                'Ga' => $bGa ? 1 : 0
+            ));
+        }
+
 		return array(
 			'ItemsCount' => $iCount,
-			'List' => \Aurora\System\Managers\Response::GetResponseObject($aList)
-            //'List' => $aClearList
+			'List' => \Aurora\System\Managers\Response::GetResponseObject($aSortedFields)
+//            'List' => $aClearList
 		);
 	}
 	
@@ -323,15 +327,15 @@ foreach ($aList as $oItem) {
 		
 		foreach ($aList as $oItem)
 		{
-		    $bGa = false;
+            $bGa = strpos($oItem->Referer, 'gad=') !== false;
 
-			$aSortedFields[] = array(
-				'Date' => $oItem->Date,
-				'Ga' => $bGa ? 1 : 0
+            $aSortedFields[] = array(
+                'Date' => $oItem->Date,
+                'Ga' => $bGa ? 1 : 0
 				//'ProductName' => $oItem->ProductName
 			);
 		}
-		
+
 		return array(
 			'List' => \Aurora\System\Managers\Response::GetResponseObject($aSortedFields)
 		);
@@ -377,7 +381,7 @@ foreach ($aList as $oItem) {
 	{
 		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
 		
-		file_put_contents("f:\web\domains\project8.dev\data\logs\log-2017-02-02.txt", json_encode($Ids));
+		//file_put_contents("f:\web\domains\project8.dev\data\logs\log-2017-02-02.txt", json_encode($Ids));
 		
 		return $this->oApiDownloadsManager->deleteDownloads($Ids);
 	}	

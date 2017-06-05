@@ -4,7 +4,6 @@ var
 	ko = require('knockout'),
 	moment = require('moment'),
 	
-//	AddressUtils = require('%PathToCoreWebclientModule%/js/utils/Address.js'),
 	Types = require('%PathToCoreWebclientModule%/js/utils/Types.js')
 	
 //	Settings = require('modules/%ModuleName%/js/Settings.js')
@@ -30,7 +29,8 @@ function CDownloadListItemModel()
 	this.bProductCommercial = '';
 	this.iPackageId = '';
 	this.sPackageName = '';
-	
+	//this.iGa = '';
+
 	this.deleted = ko.observable(false);
 	this.checked = ko.observable(false);
 	this.selected = ko.observable(false);
@@ -43,7 +43,7 @@ function CDownloadListItemModel()
  */
 CDownloadListItemModel.prototype.parse = function (oData)
 {
-	this.id =  Types.pInt(oData['iObjectId']);
+	this.id =  Types.pInt(oData['EntityId']);
 	this.UUID =  Types.pString(oData['sUUID']);
 	
 	this.sDate =  moment(oData.Date).format('YYYY-MM-DD HH:mm');
@@ -58,6 +58,7 @@ CDownloadListItemModel.prototype.parse = function (oData)
 	this.bProductCommercial = !!oData.LicenseKey;
 	this.iPackageId = Types.pInt(oData.PackageId);
 	this.sPackageName = Types.pString(oData.PackageName);
+	//this.iGa = Types.pInt(oData.Ga);
 };
 
 module.exports = CDownloadListItemModel;
