@@ -522,6 +522,23 @@ CMainView.prototype.onBind = function ()
             type: 'line',
 			data: {
 				datasets: [
+                    {
+                        label: 'Ga',
+                        backgroundColor: [
+                            'rgba(249, 242, 180, 0.5)'
+                        ],
+                        borderColor: [
+                            'rgb(249, 242, 180)'
+                        ],
+                        pointBackgroundColor: "rgb(249, 242, 180)",
+                        pointHoverBackgroundColor: "rgb(249, 242, 180)",
+                        pointHoverBorderColor: "rgb(249, 242, 180)",
+                        borderWidth: 1,
+                        pointRadius: 3,
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        lineTension: 0,
+                    },
 					{
 						label: 'Downloads',
 						backgroundColor: [
@@ -538,23 +555,6 @@ CMainView.prototype.onBind = function ()
 						pointBorderWidth: 1,
 						pointHoverRadius: 5,
 						lineTension: 0,
-					},
-					{
-						label: 'Ga',
-						backgroundColor: [
-							'rgba(237, 240, 120, 0.5)'
-						],
-						borderColor: [
-                            'rgba(237, 240, 120, 1)'
-						],
-						pointBackgroundColor: "rgba(237, 240, 120, 1)",
-						pointHoverBackgroundColor: "rgba(237, 240, 120, 1)",
-						pointHoverBorderColor: "rgba(237, 240, 120, 1)",
-                        borderWidth: 1,
-                        pointRadius: 3,
-                        pointBorderWidth: 1,
-                        pointHoverRadius: 5,
-                        lineTension: 0,
 					},
 				]
 			},
@@ -629,8 +629,8 @@ CMainView.prototype.onBind = function ()
 			oGroupedDownloads = _.extendOwn(_.clone(allRangeDays), _.countBy(aDownloads, "Date"));
 			oGroupedDownloadsGa = _.extendOwn(_.clone(allRangeDays), _.countBy(oAllGaDownloads, "Date"));
 
-            this.oChart.data.datasets[0].data = _.values(oGroupedDownloads);
-            this.oChart.data.datasets[1].data = _.values(oGroupedDownloadsGa);
+            this.oChart.data.datasets[0].data = _.values(oGroupedDownloadsGa);
+            this.oChart.data.datasets[1].data = _.values(oGroupedDownloads);
 			this.oChart.data.labels = _.keys(allRangeDays);
 			this.oChart.update();
 		}
