@@ -108,7 +108,7 @@ class Manager extends \Aurora\System\Managers\AbstractManager
 			$iOffset,
 			$iRequestLimit,
 			$aFilters,
-			$iSortField === Enums\SortField::Date ? 'Date' : 'iObjectId',
+			$iSortField === Enums\SortField::Date ? 'Date' : 'EntityId',
 			$iSortOrder
 //			$aIds
 		);
