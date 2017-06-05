@@ -243,22 +243,15 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		$iCount = $this->oApiDownloadsManager->getDownloadsCount($aFilters);
 		$aList = $this->oApiDownloadsManager->getDownloads(array(), $SortField, $SortOrder, $Offset, $Limit, $aFilters);
 
-        $aSortedFields = array();
-
         foreach ($aList as $oItem)
         {
             $bGa = strpos($oItem->Referer, 'gad=') !== false;
-
-            $oItem = (array) $oItem;
-
-            $aSortedFields[] = array_merge($oItem, array(
-                'Ga' => $bGa ? 1 : 0
-            ));
+            $oItem->Ga = $bGa ? 1 : 0;
         }
 
 		return array(
 			'ItemsCount' => $iCount,
-			'List' => \Aurora\System\Managers\Response::GetResponseObject($aSortedFields)
+			'List' => \Aurora\System\Managers\Response::GetResponseObject($aList)
 //            'List' => $aClearList
 		);
 	}
