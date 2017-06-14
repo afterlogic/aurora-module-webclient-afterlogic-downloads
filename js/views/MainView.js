@@ -523,7 +523,7 @@ CMainView.prototype.onBind = function ()
 			data: {
 				datasets: [
                     {
-                        label: 'Ga',
+                        label: 'Advert',
                         backgroundColor: [
                             'rgba(249, 242, 180, 0.5)'
                         ],
@@ -540,7 +540,7 @@ CMainView.prototype.onBind = function ()
                         lineTension: 0,
                     },
 					{
-						label: 'Downloads',
+						label: 'General',
 						backgroundColor: [
 							'rgba(120, 184, 240, 0.5)'
 						],

@@ -245,7 +245,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 
         foreach ($aList as $oItem)
         {
-            $bGa = strpos($oItem->Referer, 'gad=') !== false;
+            $bGa = strpos($oItem->Referer, 'gclid') !== false;
             $oItem->Ga = $bGa ? 1 : 0;
         }
 
@@ -320,7 +320,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		
 		foreach ($aList as $oItem)
 		{
-            $bGa = strpos($oItem->Referer, 'gad=') !== false;
+            $bGa = strpos($oItem->Referer, 'gclid') !== false;
 
             $aSortedFields[] = array(
                 'Date' => $oItem->Date,
