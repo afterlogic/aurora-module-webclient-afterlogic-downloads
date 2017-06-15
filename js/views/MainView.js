@@ -411,7 +411,9 @@ CMainView.prototype.deleteItem = function ()
 	var
 		aChecked = this.selector.listCheckedOrSelected(),
 		iCount = aChecked.length,
-		sConfirmText = TextUtils.i18n('%MODULENAME%/CONFIRM_DELETE_CONTACTS_PLURAL', {}, null, iCount),
+		sConfirmText = TextUtils.i18n('%MODULENAME%/CONFIRM_DELETE_CONTACTS_PLURAL', {
+            'COUNT': iCount,
+		}),
 		fDeleteItems = _.bind(function (bResult) {
 			if (bResult)
 			{
@@ -419,6 +421,9 @@ CMainView.prototype.deleteItem = function ()
 			}
 		}, this)
 	;
+	console.log('test1 - ');
+	console.log(sConfirmText);
+	console.log('test2 - ');
 
 	Popups.showPopup(ConfirmPopup, [sConfirmText, fDeleteItems]);
 };
