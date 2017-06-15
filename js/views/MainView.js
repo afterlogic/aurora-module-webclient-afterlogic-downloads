@@ -116,7 +116,8 @@ function CMainView()
 	}, this);
 	
 	this.searchSubmitCommand = Utils.createCommand(this, function () {
-		Routing.setHash(LinksUtils.getItemsHash(this.searchInput()));
+        Routing.setHash(LinksUtils.getItemsHash(this.searchInput()));
+		this.refreshDownloads();
 	});
 	
 	this.deleteCommand = Utils.createCommand(this, this.deleteItem, this.isCheckedOrSelected);
@@ -284,7 +285,7 @@ CMainView.prototype.requestDownloadsCartData = function ()
 		Settings.ServerModuleName,
 		'GetItemsForChart', 
 		{
-			'Search': this.search(),
+			'Search': this.searchInput(),
 			'FromDate': sFromDate,
 			'TillDate': sTillDate
 		},
