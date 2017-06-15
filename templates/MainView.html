@@ -67,7 +67,7 @@
 								</span>
 
 								<div class="items_sub_list contact_sub_list" data-bind="foreach: downloadsList">
-									<div class="item" data-bind="if: !iGa, css: {'checked': checked, 'selected': selected, 'deleted': deleted, 'ga-referer' : iGa }">
+									<div class="item" data-bind="css: {'checked': checked, 'selected': selected, 'deleted': deleted, 'ga-referer' : iGa }">
 										<div class="item_content">
 											<span class="controls">
 												<span class="custom_checkbox" data-bind="click: function () { checked(!checked()); }, css: {'checked': checked()}">
@@ -78,24 +78,7 @@
 												<span style="width: 30%" class="" data-bind="text: sProductName + ' (' + sPackageName + ')'"></span>
 												<span style="width: 50px" class="fixed" data-bind="text: sProductVersion"></span>
 												<span style="width: 20%" class="" data-bind="text: sEmail"></span>
-												<span style="width: 380px" class="fixed" data-bind="text: sReferer"></span>
-												<span style="width: 110px" class="fixed" data-bind="text: sDate"></span>
-											</span>
-											<div class="separator"></div>
-										</div>
-									</div>
-									<div class="item" data-bind="if: iGa, css: {'checked': checked, 'selected': selected, 'deleted': deleted, 'ga-referer' : iGa }">
-										<div class="item_content">
-											<span class="controls">
-												<span class="custom_checkbox" data-bind="click: function () { checked(!checked()); }, css: {'checked': checked()}">
-													<span class="icon"></span>
-												</span>
-											</span>
-											<span class="data table fadeout" >
-												<span style="width: 30%" class="" data-bind="text: sProductName + ' (' + sPackageName + ')'"></span>
-												<span style="width: 50px" class="fixed" data-bind="text: sProductVersion"></span>
-												<span style="width: 20%" class="" data-bind="text: sEmail"></span>
-												<a href="" style="width: 380px" class="fixed" data-bind="text: sReferer"></a>
+												<a style="width: 380px" class="fixed" target="_blank" data-bind="text: sReferer, attr: { href: sReferer}, click: function(item, e){e.stopPropagation();return true;}"></a>
 												<span style="width: 110px" class="fixed" data-bind="text: sDate"></span>
 											</span>
 											<div class="separator"></div>
@@ -152,7 +135,7 @@
 						</div>
 						<div class="row">
 							<span class="label">Referer:</span>
-							<span class="value" data-bind="text: sReferer"></span>
+							<a class="value" target="_blank" data-bind="text: sReferer, attr: { href: sReferer}"></a>
 						</div>
 						<div class="row">
 							<span class="label">Ip:</span>

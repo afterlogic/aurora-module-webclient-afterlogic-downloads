@@ -339,7 +339,6 @@ CMainView.prototype.onGetDownloadsListResponse = function (oResponse)
 //			this.selector.itemSelected(oNewSelected);
 //			this.requestContact(oNewSelected.UUID());
 		}
-		console.log(this.downloadsList())
 	}
 	else
 	{
@@ -465,7 +464,6 @@ CMainView.prototype.deleteItems = function (aCheckedItems)
 			});
 		}, 500);
 
-    console.log(aDownloadIds)
 		Ajax.send(Settings.ServerModuleName, 'DeleteItems', { 'Ids': aDownloadIds}, function (oResponse) {
 			if (!oResponse.Result)
 			{
