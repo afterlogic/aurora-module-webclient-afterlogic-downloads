@@ -7,6 +7,8 @@ namespace Aurora\Modules\AfterlogicDownloadsWebclient;
 class Module extends \Aurora\System\Module\AbstractWebclientModule
 {
 	public $oApiDownloadsManager = null;
+
+	public $SxGeo = null;
 	
 	public function init() 
 	{
@@ -15,7 +17,10 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 				'donwloadItem'
 			)
 		);
-		
+
+        include(__DIR__ ."/SxGeo.php");
+
+        $this->SxGeo = new \SxGeo(__DIR__.'/SxGeoCityMax.dat');
 		$this->oApiDownloadsManager = new Manager('', $this);	
 	}
 	
@@ -245,8 +250,11 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 
         foreach ($aList as $oItem)
         {
+            $city = $this->SxGeo->getCityFull($oItem->Ip);
             $bGa = strpos($oItem->Referer, 'gclid') !== false;
             $oItem->Ga = $bGa ? 1 : 0;
+            $oItem->City = $city["city"]["name_en"];
+            $oItem->Country = $city["country"]["name_en"];
         }
 
 		return array(

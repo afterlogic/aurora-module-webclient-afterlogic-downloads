@@ -30,6 +30,8 @@ function CDownloadListItemModel()
 	this.iPackageId = '';
 	this.sPackageName = '';
 	this.iGa = '';
+    this.sCity = '';
+    this.sCountry = '';
 
 	this.deleted = ko.observable(false);
 	this.checked = ko.observable(false);
@@ -59,6 +61,8 @@ CDownloadListItemModel.prototype.parse = function (oData)
 	this.iPackageId = Types.pInt(oData.PackageId);
 	this.sPackageName = Types.pString(oData.PackageName);
 	this.iGa = Types.pInt(oData.Ga);
+    this.sCity = Types.pString(oData.City);
+    this.sCountry = Types.pString(oData.Country);
 };
 
 module.exports = CDownloadListItemModel;

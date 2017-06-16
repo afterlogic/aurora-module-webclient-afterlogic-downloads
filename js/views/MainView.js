@@ -205,7 +205,7 @@ CMainView.prototype.onRoute = function (aParams)
 	
 	if (bNeedToRequestItems)
 	{
-		this.requestDownloadsList();
+		this.refreshDownloads();
 	}
 };
 
@@ -305,6 +305,7 @@ CMainView.prototype.requestDownloadsCartData = function ()
 CMainView.prototype.onGetDownloadsListResponse = function (oResponse)
 {
 	var oResult = oResponse.Result;
+
 	if (oResult)
 	{
 		var
