@@ -47,22 +47,22 @@ function CMainView()
 	this.browserTitle = ko.observable(TextUtils.i18n('%MODULENAME%/HEADING_BROWSER_TAB'));
 	this.downloadsList = ko.observableArray([]);
 	this.downloadsCount = ko.observable(0);
-	
+
 //	list, fSelectCallback, fDeleteCallback, fDblClickCallback, fEnterCallback, multiplyLineFactor,
 //	bResetCheckedOnClick, bCheckOnSelect, bUnselectOnCtrl, bDisableMultiplySelection
 	this.selector = new CSelector(
 		this.downloadsList,
 		_.bind(this.viewItem, this),
 		_.bind(this.deleteItem, this)
-		
+
 	);
-	
+
 	this.isCheckedOrSelected = ko.observable(false);
-	
+
 	this.selector.listCheckedOrSelected.subscribe(function (aList) {
 		this.isCheckedOrSelected(0 < this.selector.listCheckedOrSelected().length);
 	}, this);
-	
+
 	this.checkAll = this.selector.koCheckAll();
 	this.checkAllIncomplite = this.selector.koCheckAllIncomplete();
 
@@ -79,47 +79,47 @@ function CMainView()
 		}
 	}, this);
 	this.currentPage = ko.observable(1);
-	
+
 
 	this.loadingList = ko.observable(false);
 	this.preLoadingList = ko.observable(false);
 	this.loadingList.subscribe(function (bLoading) {
 		this.preLoadingList(bLoading);
 	}, this);
-	
+
 	this.isEmptyList = ko.computed(function () {
 		return 0 === this.downloadsList().length;
 	}, this);
-	
+
 	this.listChanged = ko.computed(function () {
 		return [
 			this.oPageSwitcher.currentPage(),
 			this.oPageSwitcher.perPage()
 		];
 	}, this);
-	
+
 	this.selectedItem = ko.observable(null);
 	this.loadingViewPane = ko.observable(false);
-	
+
 	this.isSearchFocused = ko.observable(false);
 	this.searchInput = ko.observable('');
 	this.search = ko.observable('');
-	
+
 	this.isSearch = ko.computed(function () {
 		return this.search() !== '';
 	}, this);
-	
+
 	this.searchText = ko.computed(function () {
 		return TextUtils.i18n('%MODULENAME%/INFO_SEARCH_RESULT', {
 			'SEARCH': this.search()
 		});
 	}, this);
-	
+
 	this.searchSubmitCommand = Utils.createCommand(this, function () {
         Routing.setHash(LinksUtils.getItemsHash(this.searchInput()));
 		this.refreshDownloads();
 	});
-	
+
 	this.deleteCommand = Utils.createCommand(this, this.deleteItem, this.isCheckedOrSelected);
 
 	this.chartCont = ko.observable(null);
@@ -193,14 +193,7 @@ CMainView.prototype.onRoute = function (aParams)
 	
 	if (oParams.ItemUUID && (!this.selectedItem() || this.selectedItem().UUID !== oParams.ItemUUID))
 	{
-//		if (this.downloadsList().length === 0)
-//		{
-//			this.contactUidForRequest(oParams.ItemUUID);
-//		}
-//		else
-//		{
-			this.requestItem(oParams.ItemUUID);
-//		}
+//		this.requestItem(oParams.ItemUUID);
 	}
 	
 	if (bNeedToRequestItems)
@@ -389,7 +382,7 @@ CMainView.prototype.onGetItemResponse = function (oResponse)
 		;
 
 		oObject.parse(oResult);
-		
+
 //		if (oSelected && oSelected.UUID() === oObject.uuid())
 //		{
 			this.selectedItem(oObject);

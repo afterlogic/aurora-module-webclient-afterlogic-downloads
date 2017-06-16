@@ -15,15 +15,15 @@ module.exports = function (oAppData) {
 	Settings.init(oSettings);
 	
 	require('modules/%ModuleName%/js/enums.js');
-	
-//	var sAppHash = Settings.AppName ? TextUtils.getUrlFriendlyName(Settings.AppName) : Settings.HashModuleName; 
-	
+
+//	var sAppHash = Settings.AppName ? TextUtils.getUrlFriendlyName(Settings.AppName) : Settings.HashModuleName;
+
 //	if (App.getUserRole() === Enums.UserRole.SuperAdmin)
 //	{
 //		return {
 //			/**
 //			 * Registers admin settings tabs before application start.
-//			 * 
+//			 *
 //			 * @param {Object} ModulesManager
 //			 */
 //			start: function (ModulesManager)
@@ -60,23 +60,6 @@ module.exports = function (oAppData) {
 	if (App.getUserRole() === Enums.UserRole.NormalUser || App.getUserRole() === Enums.UserRole.Customer)
 	{
 		return {
-			/**
-			 * Registers settings tab before application start.
-			 * 
-			 * @param {Object} ModulesManager
-			 */
-//			start: function (ModulesManager)
-//			{
-//				if (Settings.AuthMode === Enums.IframeAppAuthMode.CustomCredentialsSetByUser)
-//				{
-//					ModulesManager.run('SettingsWebclient', 'registerSettingsTab', [
-//						function () { return require('modules/%ModuleName%/js/views/SettingsPaneView.js'); },
-//						sAppHash,
-//						Settings.AppName || TextUtils.i18n('%MODULENAME%/LABEL_SETTINGS_TAB')
-//					]);
-//				}
-//			},
-
 			/**
 			 * Returns list of functions that are return module screens.
 			 * 
