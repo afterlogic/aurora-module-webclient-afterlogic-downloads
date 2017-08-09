@@ -57,7 +57,7 @@
 									</span>
 								</div>
 
-								<span class="list_notification" data-bind="visible: isEmptyList() && preLoadingList()" id="selenium_contacts_loading_info">
+								<span class="list_notification" data-bind="visible: isEmptyList() && preLoadingList() || loadingList()" id="selenium_contacts_loading_info">
 									<span class="description" data-bind="i18n: {'key': '%MODULENAME%/INFO_LOADING_LIST'}"></span>
 								</span>
 
@@ -66,7 +66,7 @@
 									<span class="description" data-bind="text: searchText"></span>
 								</span>
 
-								<div class="items_sub_list contact_sub_list" data-bind="foreach: downloadsList">
+								<div class="items_sub_list contact_sub_list" data-bind="foreach: downloadsList, visible : !loadingList()">
 									<div class="item" data-bind="css: {'checked': checked, 'selected': selected, 'deleted': deleted, 'ga-referer' : iGa }">
 										<div class="item_content">
 											<span class="controls">
