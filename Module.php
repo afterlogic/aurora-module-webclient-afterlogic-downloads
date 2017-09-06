@@ -2,8 +2,6 @@
 
 namespace Aurora\Modules\AfterlogicDownloadsWebclient;
 
-//use \Aurora\Modules\Enums;
-
 class Module extends \Aurora\System\Module\AbstractWebclientModule
 {
 	public $oApiDownloadsManager = null;
@@ -12,12 +10,6 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 	
 	public function init() 
 	{
-		$this->incClasses(array(
-				'enum',
-				'donwloadItem'
-			)
-		);
-
         include(__DIR__ ."/SxGeo.php");
 
         $this->SxGeo = new \SxGeo(__DIR__.'/SxGeoCityMax.dat');
@@ -345,7 +337,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 	/**
 	 * Returns contact with specified UUID.
 	 * @param string $UUID UUID of contact to return.
-	 * @return \CContact
+	 * @return \Aurora\Modules\Contacts\Classes\Contact
 	 */
 	public function GetItem($UUID)
 	{
@@ -371,7 +363,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 //			}
 //		}
 		
-		$oDownloadItem = new \CDownloadItem($this->GetName());
+		$oDownloadItem = new Classes\DownloadItem($this->GetName());
 		$oDownloadItem->Populate($Data);
 
 		$mResult = $this->oApiDownloadsManager->createDownload($oDownloadItem);

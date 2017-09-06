@@ -18,6 +18,8 @@
  * @package Modules
  */
 
+namespace Aurora\Modules\AfterlogicDownloadsWebclient\Classes;
+
 /**
  * @property int $IdUser
  *
@@ -25,7 +27,7 @@
  * @package Contactsmain
  * @subpackage Classes
  */
-class CDownloadItem extends \Aurora\System\EAV\Entity
+class DownloadItem extends \Aurora\System\EAV\Entity
 {
 	public function __construct($sModule)
 	{

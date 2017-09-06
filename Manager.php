@@ -18,7 +18,6 @@
  * @package Modules
  */
 
-//use Aurora\Modules\Enums;
 namespace Aurora\Modules\AfterlogicDownloadsWebclient;
 
 /**
@@ -46,7 +45,7 @@ class Manager extends \Aurora\System\Managers\AbstractManager
 	/**
 	 * 
 	 * @param string $sUUID
-	 * @return \CContact
+	 * @return \Aurora\Modules\Contacts\Classes\Contact
 	 */
 	public function getDownload($sUUID)
 	{
@@ -70,7 +69,7 @@ class Manager extends \Aurora\System\Managers\AbstractManager
 	public function getDownloadsCount($aFilters = [])
 	{
 		return $this->oEavManager->getEntitiesCount(
-			'CDownloadItem', 
+			__NAMESPACE__ . '\Classes\DownloadItem', 
 			$aFilters
 		);
 	}
@@ -80,11 +79,11 @@ class Manager extends \Aurora\System\Managers\AbstractManager
 	 * 
 	 * @param int $iSortField Sort field. Accepted values:
 	 *
-	 *		EContactSortField::Name
-	 *		EContactSortField::Email
-	 *		EContactSortField::Frequency
+	 *		\Aurora\Modules\Contacts\Enums\SortField::Name
+	 *		\Aurora\Modules\Contacts\Enums\SortField::Email
+	 *		\Aurora\Modules\Contacts\Enums\SortField::Frequency
 	 *
-	 * Default value is **EContactSortField::Email**.
+	 * Default value is **\Aurora\Modules\Contacts\Enums\SortField::Email**.
 	 * @param int $iSortOrder Sorting order. Accepted values:
 	 *
 	 *		ESortOrder::ASC
@@ -103,7 +102,7 @@ class Manager extends \Aurora\System\Managers\AbstractManager
 		$iOffset = 0, $iRequestLimit = 20, $aFilters = [], $aIds = [])
 	{
 		return $this->oEavManager->getEntities(
-			'CDownloadItem', 
+			__NAMESPACE__ . '\Classes\DownloadItem', 
 			$aFields,
 			$iOffset,
 			$iRequestLimit,
@@ -117,7 +116,7 @@ class Manager extends \Aurora\System\Managers\AbstractManager
 	/**
 	 * The method is used for saving created contact to the database. 
 	 * 
-	 * @param CContact $oContact
+	 * @param \Aurora\Modules\Contacts\Classes\Contact $oContact
 	 * 
 	 * @return bool
 	 */
