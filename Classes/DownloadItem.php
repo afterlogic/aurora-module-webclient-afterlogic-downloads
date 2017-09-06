@@ -65,7 +65,7 @@ class DownloadItem extends \Aurora\System\EAV\Entity
 	/**
 	 * Populate download item with specified data.
 	 * @param array $aData List of download data.
-	 * @param \CUser $oUser User.
+	 * @param \Aurora\Modules\Core\Classes\User $oUser User.
 	 */
 	public function Populate($aData, $oUser = null)
 	{
