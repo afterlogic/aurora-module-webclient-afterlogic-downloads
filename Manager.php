@@ -30,15 +30,16 @@ class Manager extends \Aurora\System\Managers\AbstractManager
 	private $oEavManager = null;
 
 	/**
-	 * @param CApiGlobalManager &$oManager
+	 * 
+	 * @param \Aurora\System\Module\AbstractModule $oModule
 	 */
-	public function __construct($sForcedStorage = '', \Aurora\System\Module\AbstractModule $oModule = null)
+	public function __construct(\Aurora\System\Module\AbstractModule $oModule = null)
 	{
 		parent::__construct($oModule);
 
 		if ($oModule instanceof \Aurora\System\Module\AbstractModule)
 		{
-			$this->oEavManager = new \Aurora\System\Managers\Eav($sForcedStorage);
+			$this->oEavManager = new \Aurora\System\Managers\Eav();
 		}
 	}
 	

@@ -13,7 +13,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
         include(__DIR__ ."/SxGeo.php");
 
         $this->SxGeo = new \SxGeo(__DIR__.'/SxGeoCityMax.dat');
-		$this->oApiDownloadsManager = new Manager('', $this);	
+		$this->oApiDownloadsManager = new Manager($this);	
 	}
 	
 	private function prepareFilters($aRawFilters)
