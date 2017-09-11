@@ -70,7 +70,7 @@ class Manager extends \Aurora\System\Managers\AbstractManager
 	public function getDownloadsCount($aFilters = [])
 	{
 		return $this->oEavManager->getEntitiesCount(
-			__NAMESPACE__ . '\Classes\DownloadItem', 
+			$this->getModule()->getNamespace() . '\Classes\DownloadItem',
 			$aFilters
 		);
 	}
@@ -103,7 +103,7 @@ class Manager extends \Aurora\System\Managers\AbstractManager
 		$iOffset = 0, $iRequestLimit = 20, $aFilters = [], $aIds = [])
 	{
 		return $this->oEavManager->getEntities(
-			__NAMESPACE__ . '\Classes\DownloadItem', 
+			$this->getModule()->getNamespace() . '\Classes\DownloadItem',
 			$aFields,
 			$iOffset,
 			$iRequestLimit,
