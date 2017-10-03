@@ -9,7 +9,9 @@ module.exports = function (oAppData) {
 		TextUtils = require('%PathToCoreWebclientModule%/js/utils/Text.js'),
 
 		Settings = require('modules/%ModuleName%/js/Settings.js'),
-		oSettings = _.extend({}, oAppData[Settings.ServerModuleName] || {}, oAppData['%ModuleName%'] || {})
+		oSettings = _.extend({}, oAppData[Settings.ServerModuleName] || {}, oAppData['%ModuleName%'] || {}),
+		
+		HeaderItemView = null
 	;
 	
 	Settings.init(oSettings);
@@ -83,17 +85,16 @@ module.exports = function (oAppData) {
 			 */
 			getHeaderItem: function ()
 			{
-				var 
-					CHeaderItemView = require('%PathToCoreWebclientModule%/js/views/CHeaderItemView.js'),
-					oHeaderEntry = 	{};
-				;
+				if (HeaderItemView === null)
+				{
+					var CHeaderItemView = require('%PathToCoreWebclientModule%/js/views/CHeaderItemView.js');
+					HeaderItemView = new CHeaderItemView(TextUtils.i18n('%MODULENAME%/HEADING_BROWSER_TAB'));
+				}
 
-				oHeaderEntry = {
-					item: new CHeaderItemView(TextUtils.i18n('%MODULENAME%/HEADING_BROWSER_TAB')),
+				return {
+					item: HeaderItemView,
 					name: Settings.HashModuleName
 				};
-				
-				return oHeaderEntry;
 			}
 		};
 	}
