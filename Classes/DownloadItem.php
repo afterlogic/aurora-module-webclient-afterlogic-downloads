@@ -40,7 +40,7 @@ class DownloadItem extends \Aurora\System\EAV\Entity
 			'ExternalProductId'	=> array('int', 0),
 			'ProductName'		=> array('string', ''),
 			'ProductVersion'	=> array('string', ''),
-			'LicenseKey'		=> array('string', ''),
+			'LicenseKey'		=> array('text', ''),
 			'ProductCommercial'	=> array('bool', true),
 			'PackageId'			=> array('int', 0),
 			'PackageName'		=> array('string', '')
@@ -69,11 +69,11 @@ class DownloadItem extends \Aurora\System\EAV\Entity
 	 */
 	public function Populate($aData, $oUser = null)
 	{
-		if (isset($oUser))
-		{
-			$this->IdUser = $oUser->iId;
-			$this->IdTenant = $oUser->IdTenant;
-		}
+//		if (isset($oUser))
+//		{
+//			$this->IdUser = $oUser->iId;
+//			$this->IdTenant = $oUser->IdTenant;
+//		}
 		
 		if (isset($aData['Date']))
 		{
@@ -119,5 +119,7 @@ class DownloadItem extends \Aurora\System\EAV\Entity
 		{
 			$this->PackageName = (string)$aData['PackageName'];
 		}
+		
+		return true;
 	}
 }

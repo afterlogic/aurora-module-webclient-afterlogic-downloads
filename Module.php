@@ -348,26 +348,22 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 	
 	public function CreateDownload($Data)
 	{
-//		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
 		
-//		$oUser = \Aurora\System\Api::getAuthenticatedUser();
+//		$bResponse = false;
+//		$sSecretKey = $this->getConfig('Secret', '');
 		
-//		if ($iUserId > 0 && $iUserId !== $oUser->iId)
+//		if ($sSecretKey !== '' && $sSecretKey === $Secret)
 //		{
-//			\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
-//			
-//			$oCoreDecorator = \Aurora\System\Api::GetModuleDecorator('Core');
-//			if ($oCoreDecorator)
-//			{
-//				$oUser = $oCoreDecorator->GetUser($iUserId);
-//			}
+			$oDownloadItem = new Classes\DownloadItem($this->GetName());
+			$oDownloadItem->Populate($Data);
+
+			$mResult = $this->oApiDownloadsManager->createDownload($oDownloadItem);
+			
+			$bResponse = $mResult && $oDownloadItem ? $oDownloadItem->id : false;
 //		}
 		
-		$oDownloadItem = new Classes\DownloadItem($this->GetName());
-		$oDownloadItem->Populate($Data);
-
-		$mResult = $this->oApiDownloadsManager->createDownload($oDownloadItem);
-		return $mResult && $oDownloadItem ? $oDownloadItem->id : false;
+		return $bResponse;
 	}
 	
 	public function DeleteItems($Ids)
