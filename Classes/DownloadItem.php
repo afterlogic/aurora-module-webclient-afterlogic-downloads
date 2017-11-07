@@ -32,7 +32,7 @@ class DownloadItem extends \Aurora\System\EAV\Entity
 	public function __construct($sModule)
 	{
 		$this->aStaticMap = array(
-			'Date'				=> array('datetime', date('Y-m-d H:i:s')),
+			'Date'				=> array('datetime', date('Y-m-d H:i:s'), true),
 			'Email'				=> array('string', ''),
 			'Referer'			=> array('text', ''),
 			'Ip'				=> array('string', ''),
