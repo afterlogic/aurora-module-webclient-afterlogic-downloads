@@ -99,7 +99,7 @@ class Manager extends \Aurora\System\Managers\AbstractManager
 	 * 
 	 * @return array|bool
 	 */
-	public function getDownloads($aFields = array(), $iSortField = Enums\SortField::Date, $iSortOrder = \ESortOrder::ASC,
+	public function getDownloads($aFields = array(), $iSortField = Enums\SortField::Date, $iSortOrder = \Aurora\System\Enums\SortOrder::ASC,
 		$iOffset = 0, $iRequestLimit = 20, $aFilters = [], $aIds = [])
 	{
 		return $this->oEavManager->getEntities(

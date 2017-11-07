@@ -239,7 +239,9 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		
 		$iCount = $this->oApiDownloadsManager->getDownloadsCount($aFilters);
 		$aList = $this->oApiDownloadsManager->getDownloads(array(), $SortField, $SortOrder, $Offset, $Limit, $aFilters);
-
+		
+		$aList = array_reverse($aList);
+		
         foreach ($aList as $oItem)
         {
             $city = $this->SxGeo->getCityFull($oItem->Ip);
