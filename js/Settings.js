@@ -1,22 +1,29 @@
 'use strict';
-var TextUtils = require('%PathToCoreWebclientModule%/js/utils/Text.js');
+var
+	_ = require('underscore'),
+	
+	TextUtils = require('%PathToCoreWebclientModule%/js/utils/Text.js'),
+	Types = require('%PathToCoreWebclientModule%/js/utils/Types.js')
+;
 
 module.exports = {
 	ServerModuleName: '%ModuleName%',
-	HashModuleName: TextUtils.getUrlFriendlyName('%ModuleName%'), /*'iframe-app',*/
+	HashModuleName: TextUtils.getUrlFriendlyName('%ModuleName%'),
 	
 	ItemsPerPage: 20,
 
 	/**
-	 * Initializes settings of the module.
+	 * Initializes settings from AppData object sections.
 	 * 
-	 * @param {Object} oAppDataSection module section in AppData.
+	 * @param {Object} oAppData Object contained modules settings.
 	 */
-	init: function (oAppDataSection)
+	init: function (oAppData)
 	{
-		if (oAppDataSection)
+		var oAppDataSection = oAppData['%ModuleName%'];
+		
+		if (!_.isEmpty(oAppDataSection))
 		{
-			this.ItemsPerPage = oAppDataSection.ItemsPerPage;
+			this.ItemsPerPage = Types.pPositiveInt(oAppDataSection.ItemsPerPage, this.ItemsPerPage);
 			
 //			this.EIframeAppAuthMode = oAppDataSection.EIframeAppAuthMode;
 //			this.EIframeAppTokenMode = oAppDataSection.EIframeAppTokenMode;
