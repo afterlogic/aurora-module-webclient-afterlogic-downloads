@@ -33,17 +33,17 @@ class DownloadItem extends \Aurora\System\EAV\Entity
 	{
 		$this->aStaticMap = array(
 			'Date'				=> array('datetime', date('Y-m-d H:i:s'), true),
-			'Email'				=> array('string', '', true),
+			'Email'				=> array('string', ''),
 			'Referer'			=> array('text', ''),
 			'Ip'				=> array('string', ''),
-			'ProductId'			=> array('int', 0),
+			'ProductId'			=> array('int', 0, true),
 			'ExternalProductId'	=> array('int', 0),
-			'ProductName'		=> array('string', '', true),
+			'ProductName'		=> array('string', ''),
 			'ProductVersion'	=> array('string', ''),
-			'LicenseKey'		=> array('text', '', true),
+			'LicenseKey'		=> array('text', ''),
 			'ProductCommercial'	=> array('bool', true),
 			'PackageId'			=> array('int', 0),
-			'PackageName'		=> array('string', '', true)
+			'PackageName'		=> array('string', '')
 		);
 		parent::__construct($sModule);
 	}
