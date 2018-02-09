@@ -36,7 +36,7 @@ class DownloadItem extends \Aurora\System\EAV\Entity
 			'Email'				=> array('string', ''),
 			'Referer'			=> array('text', ''),
 			'Ip'				=> array('string', ''),
-			'ProductId'			=> array('int', 0),
+			'ProductId'			=> array('int', 0, true),
 			'ExternalProductId'	=> array('int', 0),
 			'ProductName'		=> array('string', ''),
 			'ProductVersion'	=> array('string', ''),
