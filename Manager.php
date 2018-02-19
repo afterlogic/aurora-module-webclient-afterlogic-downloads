@@ -46,13 +46,11 @@ class Manager extends \Aurora\System\Managers\AbstractManager
 	/**
 	 * 
 	 * @param string $sUUID
-	 * @return \Aurora\Modules\Contacts\Classes\Contact
+	 * @return Aurora\Modules\AfterlogicDownloadsWebclient\Classes
 	 */
 	public function getDownload($sUUID)
 	{
-		$oItem = $this->oEavManager->getEntity($sUUID);
-
-		return $oItem;
+		return $this->oEavManager->getEntity($sUUID, $this->getModule()->getNamespace() . '\Classes\DownloadItem');
 	}
 	
 	/**
