@@ -10,7 +10,10 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 	
 	public function init() 
 	{
-        include(__DIR__ ."/SxGeo.php");
+		if (!class_exists("SxGeo"))
+		{
+			include_once(__DIR__ ."/SxGeo.php");
+		}
 
         $this->SxGeo = new \SxGeo(__DIR__.'/SxGeoCityMax.dat');
 		$this->oApiDownloadsManager = new Manager($this);	
