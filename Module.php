@@ -8,8 +8,9 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 
 	public $SxGeo = null;
 	
-	public function init() 
+	public function __construct($sPath, $sVersion = '1.0')
 	{
+		parent::__construct($sPath, $sVersion);
 		if (!class_exists("SxGeo"))
 		{
 			include_once(__DIR__ ."/SxGeo.php");
@@ -18,7 +19,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
         $this->SxGeo = new \SxGeo(__DIR__.'/SxGeoCityMax.dat');
 		$this->oApiDownloadsManager = new Manager($this);	
 	}
-	
+
 	private function prepareFilters($aRawFilters)
 	{
 		$aFilters = [];
@@ -70,8 +71,8 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		{
 			return array(
 				'ItemsPerPage' => $this->getConfig('ItemsPerPage', 20)
-//				'Login' => $oUser->{$this->GetName().'::Login'},
-//				'HasPassword' => (bool) $oUser->{$this->GetName().'::Password'},
+//				'Login' => $oUser->{self::GetName().'::Login'},
+//				'HasPassword' => (bool) $oUser->{self::GetName().'::Password'},
 //				'EIframeAppAuthMode' => (new \EIframeAppAuthMode)->getMap(),
 //				'EIframeAppTokenMode' => (new \EIframeAppTokenMode)->getMap(),
 //				'ItemsPerPage' => $this->getConfig('AuthMode', EIframeAppAuthMode::NoAuthentication),
@@ -110,8 +111,8 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 //			if ($oUser)
 //			{
 //				$oCoreDecorator = \Aurora\System\Api::GetModuleDecorator('Core');
-//				$oUser->{$this->GetName().'::Login'} = $Login;
-//				$oUser->{$this->GetName().'::Password'} = $Password;
+//				$oUser->{self::GetName().'::Login'} = $Login;
+//				$oUser->{self::GetName().'::Password'} = $Password;
 //				return $oCoreDecorator->UpdateUserObject($oUser);
 //			}
 //		}
@@ -135,8 +136,8 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 				&& !empty($oUser) && $oUser->Role === \Aurora\System\Enums\UserRole::NormalUser)
 		{
 			return array(
-				'Login' => $oUser->{$this->GetName().'::Login'},
-				'Password' => $oUser->{$this->GetName().'::Password'},
+				'Login' => $oUser->{self::GetName().'::Login'},
+				'Password' => $oUser->{self::GetName().'::Password'},
 			);
 		}
 		
@@ -162,8 +163,8 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		{
 			return array(
 				'EnableModule' => $this->isEnabledForEntity($oUser),
-				'Login' => $oUser->{$this->GetName().'::Login'},
-				'HasPassword' => (bool) $oUser->{$this->GetName().'::Password'}
+				'Login' => $oUser->{self::GetName().'::Login'},
+				'HasPassword' => (bool) $oUser->{self::GetName().'::Password'}
 			);
 		}
 		
@@ -193,8 +194,8 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 			
 			if (!empty($Login) && !empty($Password))
 			{
-				$oUser->{$this->GetName().'::Login'} = $Login;
-				$oUser->{$this->GetName().'::Password'} = $Password;
+				$oUser->{self::GetName().'::Login'} = $Login;
+				$oUser->{self::GetName().'::Password'} = $Password;
 				
 				return $oCoreDecorator->UpdateUserObject($oUser);
 			}
@@ -360,7 +361,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		
 //		if ($sSecretKey !== '' && $sSecretKey === $Secret)
 //		{
-			$oDownloadItem = new Classes\DownloadItem($this->GetName());
+			$oDownloadItem = new Classes\DownloadItem(self::GetName());
 			$oDownloadItem->Populate($Data);
 
 			$mResult = $this->oApiDownloadsManager->createDownload($oDownloadItem);
