@@ -28,7 +28,7 @@ class Manager extends \Aurora\System\Managers\AbstractManager
 
 		if ($oModule instanceof \Aurora\System\Module\AbstractModule)
 		{
-			$this->oEavManager = new \Aurora\System\Managers\Eav();
+			$this->oEavManager = \Aurora\System\Managers\Eav::getInstance();
 		}
 	}
 	
@@ -39,7 +39,11 @@ class Manager extends \Aurora\System\Managers\AbstractManager
 	 */
 	public function getDownload($sUUID)
 	{
+<<<<<<< HEAD
 		return $this->oEavManager->getEntity($sUUID, Module::getNamespace() . '\Classes\DownloadItem');
+=======
+		return $this->oEavManager->getEntity($sUUID, \Aurora\Modules\AfterlogicDownloadsWebclient\Classes\DownloadItem::class);
+>>>>>>> global refactoring
 	}
 	
 	/**
@@ -57,7 +61,11 @@ class Manager extends \Aurora\System\Managers\AbstractManager
 	public function getDownloadsCount($aFilters = [])
 	{
 		return $this->oEavManager->getEntitiesCount(
+<<<<<<< HEAD
 			Module::getNamespace() . '\Classes\DownloadItem',
+=======
+			\Aurora\Modules\AfterlogicDownloadsWebclient\Classes\DownloadItem::class,
+>>>>>>> global refactoring
 			$aFilters
 		);
 	}
@@ -90,7 +98,11 @@ class Manager extends \Aurora\System\Managers\AbstractManager
 		$iOffset = 0, $iRequestLimit = 20, $aFilters = [], $aIds = [])
 	{
 		return $this->oEavManager->getEntities(
+<<<<<<< HEAD
 			Module::getNamespace() . '\Classes\DownloadItem',
+=======
+			\Aurora\Modules\AfterlogicDownloadsWebclient\Classes\DownloadItem::class,
+>>>>>>> global refactoring
 			$aFields,
 			$iOffset,
 			$iRequestLimit,
