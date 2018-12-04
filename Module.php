@@ -4,10 +4,20 @@ namespace Aurora\Modules\AfterlogicDownloadsWebclient;
 
 class Module extends \Aurora\System\Module\AbstractWebclientModule
 {
-	public $oApiDownloadsManager = null;
+	public $oManager = null;
 
 	public $SxGeo = null;
 	
+	public function getManager()
+	{
+		if ($this->oManager === null)
+		{
+			$this->oManager = new Manager($this);
+		}
+
+		return $this->oManager;
+	}
+
 	public function __construct($sPath, $sVersion = '1.0')
 	{
 		parent::__construct($sPath, $sVersion);
@@ -17,7 +27,6 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		}
 
         $this->SxGeo = new \SxGeo(__DIR__.'/SxGeoCityMax.dat');
-		$this->oApiDownloadsManager = new Manager($this);	
 	}
 
 	private function prepareFilters($aRawFilters)
@@ -241,8 +250,8 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 			$aFilters = ['$OR' => $aFilters];
 		}
 		
-		$iCount = $this->oApiDownloadsManager->getDownloadsCount($aFilters);
-		$aList = $this->oApiDownloadsManager->getDownloads(array(), $SortField, $SortOrder, $Offset, $Limit, $aFilters);
+		$iCount = $this->getManager()->getDownloadsCount($aFilters);
+		$aList = $this->getManager()->getDownloads(array(), $SortField, $SortOrder, $Offset, $Limit, $aFilters);
 		
 		$aList = array_reverse($aList);
 		
@@ -318,7 +327,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		//$aFields = array('ProductName', 'Date');
 		$aFields = array('Date', 'Referer');
 
-		$aList = $this->oApiDownloadsManager->getDownloads($aFields, Enums\SortField::Date, \Aurora\System\Enums\SortOrder::DESC, 0, 0, $aFilters);
+		$aList = $this->getManager()->getDownloads($aFields, Enums\SortField::Date, \Aurora\System\Enums\SortOrder::DESC, 0, 0, $aFilters);
 
 
 
@@ -349,7 +358,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 	{
 		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::NormalUser);
 		
-		return $this->oApiDownloadsManager->getDownload((string)$UUID);
+		return $this->getManager()->getDownload((string)$UUID);
 	}
 	
 	public function CreateDownload($Data)
@@ -364,7 +373,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 			$oDownloadItem = new Classes\DownloadItem(self::GetName());
 			$oDownloadItem->Populate($Data);
 
-			$mResult = $this->oApiDownloadsManager->createDownload($oDownloadItem);
+			$mResult = $this->getManager()->createDownload($oDownloadItem);
 			
 			$bResponse = $mResult && $oDownloadItem ? $oDownloadItem->id : false;
 //		}
@@ -378,6 +387,6 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		
 		//file_put_contents("f:\web\domains\project8.dev\data\logs\log-2017-02-02.txt", json_encode($Ids));
 		
-		return $this->oApiDownloadsManager->deleteDownloads($Ids);
+		return $this->getManager()->deleteDownloads($Ids);
 	}	
 }
