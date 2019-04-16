@@ -1,6 +1,6 @@
 <?php
 /**
- * This code is licensed under AfterLogic Software License.
+ * This code is licensed under Afterlogic Software License.
  * For full statements of the license see LICENSE file.
  */
 
@@ -8,9 +8,6 @@ namespace Aurora\Modules\AfterlogicDownloadsWebclient;
 
 /**
  * CApiContactsManager class summary
- * 
- * This code is licensed under AfterLogic Software License.
- * For full statements of the license see LICENSE file.
  * 
  * @package ContactsMain
  */
