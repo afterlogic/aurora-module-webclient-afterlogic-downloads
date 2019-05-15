@@ -88,7 +88,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::Anonymous);
 		
 		$oUser = \Aurora\System\Api::getAuthenticatedUser();
-		if (!empty($oUser) && ($oUser->Role === \Aurora\System\Enums\UserRole::NormalUser && $this->isEnabledForEntity($oUser) || $oUser->Role === \Aurora\System\Enums\UserRole::SuperAdmin))
+		if (!empty($oUser) && ($oUser->isNormalOrTenant() && $this->isEnabledForEntity($oUser) || $oUser->Role === \Aurora\System\Enums\UserRole::SuperAdmin))
 		{
 			return array(
 				'ItemsPerPage' => $this->getConfig('ItemsPerPage', 20)
@@ -154,7 +154,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
 		$iAuthMode = $this->getConfig('AuthMode', \EIframeAppAuthMode::NoAuthentication);
 				
 		if (($iAuthMode === \EIframeAppAuthMode::CustomCredentialsSetByUser || $iAuthMode === \EIframeAppAuthMode::CustomCredentialsSetByAdmin)
-				&& !empty($oUser) && $oUser->Role === \Aurora\System\Enums\UserRole::NormalUser)
+				&& !empty($oUser) && $oUser->isNormalOrTenant())
 		{
 			return array(
 				'Login' => $oUser->{self::GetName().'::Login'},
